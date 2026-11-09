@@ -159,7 +159,10 @@ public:
     std::optional<Lighting> lighting();
     bool setLighting(const Lighting &l);
     std::optional<std::vector<Rgb>> keyColors();
-    bool setKeyColors(const std::vector<Rgb> &colors);
+    // One key per packet: this firmware applies a multi-key packet that runs
+    // past the end of a row onto the next row's first keys, so 8-key packets
+    // make the left-hand keys flicker or go dark.
+    bool setKeyColors(const std::vector<Rgb> &colors, const std::vector<bool> &present = {}, bool save = true);
     bool setKeyColor(int row, int col, const Rgb &c);
     bool saveKeyColors();
     std::optional<BoxLight> boxLight();

@@ -150,30 +150,12 @@ MadKeyboard::MadKeyboard(const HidInfo &info, QObject *parent)
         h = std::max(h, y + kh);
     }
     m_engine.setLayout(pos, w, h);
-
-    // Empty matrix slots copy the nearest populated key in the same row, so a
-    // wide key whose LED sits on a neighbouring slot never alternates with black.
-    m_ledSource.assign(kKeys, -1);
-    for (int i = 0; i < kKeys; ++i) {
-        if (pos[i].present) {
-            m_ledSource[i] = i;
-            continue;
-        }
-        const int row = i / kCols;
-        int best = -1, bestD = 99;
-        for (int c = 0; c < kCols; ++c) {
-            const int j = row * kCols + c;
-            if (pos[j].present && std::abs(c - i % kCols) < bestD) {
-                bestD = std::abs(c - i % kCols);
-                best = j;
-            }
-        }
-        m_ledSource[i] = best;
-    }
+    m_present.assign(kKeys, false);
+    for (int i = 0; i < kKeys; ++i)
+        m_present[i] = pos[i].present;
 
     QSettings st(QStringLiteral("flux"), flux::settingsApp());
     m_osuMode = st.value(QStringLiteral("keyboard-osu/on"), false).toBool();
-    m_ledGapMs = std::clamp(st.value(QStringLiteral("keyboard-fx/ledGapMs"), 5).toInt(), 0, 20);
     for (const auto &v : st.value(QStringLiteral("keyboard-osu/keys")).toList())
         m_osuKeys << v.toInt();
     m_fxSpeed = st.value(QStringLiteral("keyboard-fx/speed"), 1.0).toDouble();
@@ -195,17 +177,10 @@ MadKeyboard::~MadKeyboard()
         auto fut = done->get_future();
         const auto light = m_lightBeforeFx;
         const auto colors = m_colors;
-        m_io.post([this, done, light, colors] {
+        const auto present = m_present;
+        m_io.post([this, done, light, colors, present] {
             if (m_proto) {
-                for (int row = 0; row < kRows; ++row)
-                    for (int col : {0, 8}) {
-                        Report req = Protocol::make({0x07, 0x42, uint8_t(row), uint8_t(col), 8});
-                        for (int k = 0; k < 8 && col + k < kCols; ++k) {
-                            const auto &c = colors[row * kCols + col + k];
-                            req[5 + 3 * k] = c.r; req[6 + 3 * k] = c.g; req[7 + 3 * k] = c.b;
-                        }
-                        m_proto->request(req, 200);
-                    }
+                m_proto->setKeyColors(colors, present, false);
                 m_proto->setLighting(light);
             }
             done->set_value();
@@ -873,7 +848,8 @@ void MadKeyboard::setKeyColor(const QVariantList &indices, const QColor &color)
     emit lightingChanged();
     if (idx.size() > 6) {
         auto all = m_colors;
-        write([all](Protocol &p) { return p.setKeyColors(all); }, QStringLiteral("Key colours"));
+        auto present = m_present;
+        write([all, present](Protocol &p) { return p.setKeyColors(all, present); }, QStringLiteral("Key colours"));
     } else {
         write([idx, c](Protocol &p) {
             for (int i : idx)
@@ -1047,18 +1023,7 @@ void MadKeyboard::stopFluxEffect()
 void MadKeyboard::restoreAfterFlux(const std::vector<Rgb> &colors)
 {
     // Put the stored per-key design back into RAM (it is unchanged in flash).
-    for (int row = 0; row < kRows; ++row)
-        for (int col : {0, 8}) {
-            Report req = Protocol::make({0x07, 0x42, uint8_t(row), uint8_t(col), 8});
-            for (int k = 0; k < 8 && col + k < kCols; ++k) {
-                const auto &c = colors[row * kCols + col + k];
-                req[5 + 3 * k] = c.r;
-                req[6 + 3 * k] = c.g;
-                req[7 + 3 * k] = c.b;
-            }
-            m_proto->request(req, 200);
-            std::this_thread::sleep_for(std::chrono::milliseconds(m_ledGapMs.load()));
-        }
+    m_proto->setKeyColors(colors, m_present, false);
     m_lastSent.clear();
 }
 
@@ -1098,8 +1063,7 @@ void MadKeyboard::streamFrame(const std::vector<fx::Color> &frame)
     const float alpha = snappy ? 0.6f : 0.35f;
     std::vector<Rgb> rgb(kKeys);
     for (int i = 0; i < kKeys && i < int(frame.size()); ++i) {
-        const int src = m_ledSource.empty() || m_ledSource[i] < 0 ? i : m_ledSource[i];
-        const float in[3] = {frame[src].r, frame[src].g, frame[src].b};
+        const float in[3] = {frame[i].r, frame[i].g, frame[i].b};
         uint8_t out[3];
         for (int c = 0; c < 3; ++c) {
             float &s = m_smooth[i * 3 + c];
@@ -1114,33 +1078,20 @@ void MadKeyboard::streamFrame(const std::vector<fx::Color> &frame)
     if (m_lastSent.size() != size_t(kKeys))
         m_lastSent.assign(kKeys, Rgb{1, 2, 3});
     auto differs = [](const Rgb &a, const Rgb &b) {
-        // Ignore changes too small to see (relative dead-band), but always
-        // send a change to/from black. Fewer rewrites = less LED-driver glitching.
+        // Skip changes too small to see (relative dead-band), but always
+        // send a change to/from black.
         const bool blackA = !a.r && !a.g && !a.b, blackB = !b.r && !b.g && !b.b;
         auto big = [](int x, int y) { return std::abs(x - y) > std::max(2, std::max(x, y) / 14); };
         return blackA != blackB || big(a.r, b.r) || big(a.g, b.g) || big(a.b, b.b);
     };
-    for (int row = 0; row < kRows; ++row) {
-        for (int col : {0, 8}) {
-            bool changed = false;
-            for (int k = 0; k < 8 && col + k < kCols; ++k)
-                changed |= differs(rgb[row * kCols + col + k], m_lastSent[row * kCols + col + k]);
-            if (!changed)
-                continue;
-            Report req = Protocol::make({0x07, 0x42, uint8_t(row), uint8_t(col), 8});
-            for (int k = 0; k < 8 && col + k < kCols; ++k) {
-                const auto &c = rgb[row * kCols + col + k];
-                req[5 + 3 * k] = c.r;
-                req[6 + 3 * k] = c.g;
-                req[7 + 3 * k] = c.b;
-                m_lastSent[row * kCols + col + k] = c;
-            }
-            if (!m_proto->request(req, 120))
-                return;
-            // Let the keyboard finish redrawing before it hears from us again.
-            if (const int gap = m_ledGapMs.load(); gap > 0)
-                std::this_thread::sleep_for(std::chrono::milliseconds(gap));
-        }
+    // One key per packet, only keys that changed. (8-key packets spill past
+    // the end of a row onto the next row's first keys on this firmware.)
+    for (int i = 0; i < kKeys; ++i) {
+        if (!m_present[i] || !differs(rgb[i], m_lastSent[i]))
+            continue;
+        if (!m_proto->setKeyColor(i / kCols, i % kCols, rgb[i]))
+            return;
+        m_lastSent[i] = rgb[i];
     }
     // Throttled preview for the UI (~25 fps).
     static thread_local int every = 0;
@@ -1178,7 +1129,7 @@ void MadKeyboard::bakeFluxFrame()
     emit lightingChanged();
     const auto l = m_light;
     runIo([this, frame, l] {
-        const bool ok = m_proto->setKeyColors(frame) && m_proto->setLighting(l);
+        const bool ok = m_proto->setKeyColors(frame, m_present) && m_proto->setLighting(l);
         onGui([this, ok] { emit toast(ok ? QStringLiteral("Saved to the keyboard. It stays without Flux running.") : QStringLiteral("Couldn't save the design"), !ok); });
     });
 }
@@ -1728,7 +1679,8 @@ void MadKeyboard::importSettings(const QVariantMap &s)
             m_colors[i] = Rgb{uint8_t(c.red()), uint8_t(c.green()), uint8_t(c.blue())};
         }
         auto all = m_colors;
-        write([all](Protocol &p) { return p.setKeyColors(all); }, QStringLiteral("Key colours"));
+        auto present = m_present;
+        write([all, present](Protocol &p) { return p.setKeyColors(all, present); }, QStringLiteral("Key colours"));
     }
     const QVariantList socd = s.value(QStringLiteral("socd")).toList();
     if (!m_socd.empty())

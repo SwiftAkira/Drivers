@@ -600,24 +600,15 @@ std::optional<std::vector<Rgb>> Protocol::keyColors()
     return out;
 }
 
-bool Protocol::setKeyColors(const std::vector<Rgb> &colors)
+bool Protocol::setKeyColors(const std::vector<Rgb> &colors, const std::vector<bool> &present, bool save)
 {
-    for (int row = 0; row < kRows; ++row) {
-        for (int col : {0, 8}) {
-            Report req = make({0x07, 0x42, uint8_t(row), uint8_t(col), 8});
-            for (int k = 0; k < 8 && col + k < kCols; ++k) {
-                const size_t idx = size_t(row * kCols + col + k);
-                const Rgb c = idx < colors.size() ? colors[idx] : Rgb{};
-                req[5 + 3 * k] = c.r;
-                req[6 + 3 * k] = c.g;
-                req[7 + 3 * k] = c.b;
-            }
-            if (!request(req))
-                return false;
-            std::this_thread::sleep_for(std::chrono::milliseconds(5)); // let the LED chain redraw
-        }
+    for (int i = 0; i < kKeys && i < int(colors.size()); ++i) {
+        if (!present.empty() && (i >= int(present.size()) || !present[i]))
+            continue;
+        if (!setKeyColor(i / kCols, i % kCols, colors[i]))
+            return false;
     }
-    return saveKeyColors();
+    return save ? saveKeyColors() : true;
 }
 
 bool Protocol::setKeyColor(int row, int col, const Rgb &c)

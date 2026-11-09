@@ -258,6 +258,113 @@ static int cmdKeyboard(int argc, char **argv)
         std::printf("Done. Which phases (A/B/C/D) flickered on the left side?\n");
         return 0;
     }
+    if (sub == "fxdiag") {
+        // Five 8-second phases that each change one variable; note which flicker.
+        static volatile std::sig_atomic_t stop = 0;
+        std::signal(SIGINT, [](int) { stop = 1; });
+        auto savedLight = p.lighting();
+        auto savedColors = p.keyColors();
+        if (!savedLight || !savedColors) {
+            std::fprintf(stderr, "couldn't read current lighting: %s\n", p.lastError().c_str());
+            return 1;
+        }
+        const std::vector<int> empty = {2 * 14 + 12, 3 * 14 + 0, 3 * 14 + 2, 4 * 14 + 3, 4 * 14 + 4, 4 * 14 + 5, 4 * 14 + 7, 4 * 14 + 8, 4 * 14 + 13};
+        auto present = [&](int i) { return std::find(empty.begin(), empty.end(), i) == empty.end(); };
+        std::vector<flux::fx::KeyPos> pos(kKeys);
+        for (int i = 0; i < kKeys; ++i)
+            pos[i] = {present(i), float(i % kCols) + 0.5f, float(i / kCols) + 0.5f};
+        flux::fx::Engine eng;
+        eng.setLayout(pos, 15.f, 5.f);
+        flux::fx::Params pr;
+        pr.effect = "plasma";
+        pr.intensity = 0.8f;
+        pr.palette = {flux::fx::Color{1.f, 0.216f, 0.373f}, flux::fx::Color{0.369f, 0.361f, 0.902f}, flux::fx::Color{0.392f, 0.824f, 1.f}};
+        eng.setParams(pr);
+        auto toByte = [](float v) { return uint8_t(std::clamp(v, 0.f, 1.f) * 255); };
+        auto writeChunk = [&](const std::vector<flux::fx::Color> &f, int row, int col) {
+            Report req = Protocol::make({0x07, 0x42, uint8_t(row), uint8_t(col), 8});
+            for (int k = 0; k < 8 && col + k < kCols; ++k) {
+                const auto &c = f[row * kCols + col + k];
+                req[5 + 3 * k] = toByte(c.r); req[6 + 3 * k] = toByte(c.g); req[7 + 3 * k] = toByte(c.b);
+            }
+            p.request(req, 120);
+        };
+        const auto start = std::chrono::steady_clock::now();
+        auto now = [&] { return std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count(); };
+        auto runPhase = [&](const char *label, auto frameFn) {
+            if (stop) return;
+            std::printf("\n>>> %s  (8 seconds)\n", label);
+            std::fflush(stdout);
+            const auto end = std::chrono::steady_clock::now() + std::chrono::seconds(8);
+            while (!stop && std::chrono::steady_clock::now() < end) {
+                const auto f0 = std::chrono::steady_clock::now();
+                frameFn();
+                const auto spent = std::chrono::steady_clock::now() - f0;
+                if (spent < std::chrono::milliseconds(40))
+                    std::this_thread::sleep_for(std::chrono::milliseconds(40) - spent);
+            }
+        };
+        Lighting perKey = *savedLight;
+        perKey.effect = 1;
+        perKey.brightness = 120;
+
+        // 1. Keyboard's own animated effect, no streaming.
+        Lighting builtin = *savedLight;
+        builtin.effect = 13;
+        builtin.speed = 128;
+        builtin.brightness = 120;
+        p.setLighting(builtin);
+        runPhase("Phase 1: keyboard's OWN Spectrum Cycle (no Flux streaming)", [&] {});
+
+        // 2. Plasma, low hardware brightness.
+        Lighting dim = perKey;
+        dim.brightness = 30;
+        p.setLighting(dim);
+        runPhase("Phase 2: Flux Plasma at LOW brightness", [&] {
+            const auto f = eng.render(now(), {});
+            for (int r = 0; r < kRows; ++r) for (int c : {0, 8}) writeChunk(f, r, c);
+        });
+
+        // 3. Whole board one colour, slowly changing hue.
+        p.setLighting(perKey);
+        runPhase("Phase 3: whole board ONE colour, slowly changing", [&] {
+            const double t = now();
+            const float h = float(std::fmod(t * 0.08, 1.0));
+            const float r = 0.5f + 0.5f * std::sin(6.2832f * h), g = 0.5f + 0.5f * std::sin(6.2832f * (h + 0.333f)), b = 0.5f + 0.5f * std::sin(6.2832f * (h + 0.667f));
+            std::vector<flux::fx::Color> f(kKeys, flux::fx::Color{r * 0.8f, g * 0.8f, b * 0.8f});
+            for (int rr = 0; rr < kRows; ++rr) for (int c : {0, 8}) writeChunk(f, rr, c);
+        });
+
+        // 4. Plasma, one key per packet.
+        runPhase("Phase 4: Flux Plasma, ONE KEY PER PACKET", [&] {
+            const auto f = eng.render(now(), {});
+            for (int i = 0; i < kKeys; ++i) {
+                if (!present(i)) continue;
+                const auto &c = f[i];
+                p.request(Protocol::make({0x07, 0x42, uint8_t(i / kCols), uint8_t(i % kCols), 1, toByte(c.r), toByte(c.g), toByte(c.b)}), 120);
+            }
+        });
+
+        // 5. Plasma, reverse write order.
+        runPhase("Phase 5: Flux Plasma, REVERSE write order", [&] {
+            const auto f = eng.render(now(), {});
+            for (int r = kRows - 1; r >= 0; --r) for (int c : {8, 0}) writeChunk(f, r, c);
+        });
+
+        std::printf("\nRestoring your lighting...\n");
+        for (int row = 0; row < kRows; ++row)
+            for (int col : {0, 8}) {
+                Report req = Protocol::make({0x07, 0x42, uint8_t(row), uint8_t(col), 8});
+                for (int k = 0; k < 8 && col + k < kCols; ++k) {
+                    const auto &c = (*savedColors)[row * kCols + col + k];
+                    req[5 + 3 * k] = c.r; req[6 + 3 * k] = c.g; req[7 + 3 * k] = c.b;
+                }
+                p.request(req, 200);
+            }
+        p.setLighting(*savedLight);
+        std::printf("Done. Which phases (1-5) flickered on the left side?\n");
+        return 0;
+    }
     if (sub == "timing") {
         // Round-trip latency of a plain read vs an LED write that touches no keys.
         auto bench = [&](const char *name, Report req) {

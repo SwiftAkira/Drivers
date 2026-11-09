@@ -310,12 +310,7 @@ private:
     mad::Lighting m_lightBeforeFx;          // GUI copy, restored on stop
     std::vector<mad::Rgb> m_lastSent;       // I/O thread
     std::vector<float> m_smooth;            // I/O thread: temporally smoothed frame (r,g,b per key)
-    std::vector<int> m_ledSource;           // matrix index whose colour an empty slot copies
-    // The keyboard acknowledges an LED write in ~0.25 ms and redraws its LED
-    // chain *afterwards* (~2-3 ms). A packet arriving during that redraw
-    // garbles the first LEDs of the chain (the left side), so every LED write
-    // is followed by a quiet gap before the next USB packet.
-    std::atomic<int> m_ledGapMs{5};
+    std::vector<bool> m_present;            // populated matrix positions
     std::vector<mad::Rgb> m_lastFrame;      // GUI copy (for baking)
     std::chrono::steady_clock::time_point m_fxEpoch = std::chrono::steady_clock::now();
     int m_fxFrames = 0;

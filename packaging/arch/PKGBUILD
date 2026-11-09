@@ -3,7 +3,7 @@
 pkgname=flux-peripherals
 _appname=flux
 pkgver=0.1.0
-pkgrel=4
+pkgrel=5
 pkgdesc="Native settings app for the LAMZU INCA 8K mouse and MADLIONS MAD LIGHT 60 HE keyboard"
 arch=('x86_64')
 license=('MIT')
