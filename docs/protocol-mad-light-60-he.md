@@ -42,12 +42,10 @@ Reverse-engineered by static analysis of the FGG / FIERCE GAMING GEAR WebHID dri
   * Protocol controller: `DuckBread` (extends `HidDevice2` → `WebHidGeneral`).
   * UI: `ConfigPage-eQr_MPuY.js`.
   * The device-table "digital" entry `Kl` is only a host-side profile store (IndexedDB `db-mad-light-60-profile`). Macros are also cached host-side, in `duck-bread-keyboard-macro`.
-* **Source references**: deobfuscated files are in `scratchpad/pretty/fgg-deob/`.
+* **Source references** point into deobfuscated, beautified copies of the web driver's bundles (not included in this repo):
   * `L<n>` = line in `index-D9yt26aK.js` (protocol).
   * `C<n>` = line in `ConfigPage-eQr_MPuY.js` (board UI).
   * `V<n>` = line in `vue-draggable-plus-dU8dfF6a.js` (shared widgets).
-  * Tools: `scratchpad/tools/deob.js`, `strip_alias.py`, `parse_layout.js`, `gen_layout.js`, `gen_keycodes.js`.
-  * Scratchpad path: `/tmp/claude-1000/-home-swift--claude-spares-spare-hvPZje/e56eb4a3-a7a6-4731-8c8f-c13c2e3889cc/scratchpad/`
 * **UNVERIFIED** = inferred, not read directly from code. "The UI does X" = the vendor app's behaviour; that is the only behaviour known to work.
 
 ---

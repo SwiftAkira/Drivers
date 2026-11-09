@@ -4,7 +4,7 @@ Reverse-engineered by static analysis of LAMZU "Aurora" driver v1.0.37 (Electron
 Nothing here was tested against hardware. Items marked **UNVERIFIED** are inferences not directly
 proven by the code path the app uses for INCA.
 
-Source abbreviations (all under `scratchpad/pretty/aurora/`):
+Source abbreviations (line numbers refer to beautified copies of the app's bundles, not included in this repo):
 
 | Tag | File | What it contains |
 |---|---|---|
