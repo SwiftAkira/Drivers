@@ -562,6 +562,9 @@ The UI shows the tabs "Back lamp" / "Box lamp" for MAD LIGHT 60HE.
 
 All steps are 1.
 
+### 8.5 Write cost (measured, `fluxctl kb wtiming`)
+Lighting SETs (`07 41`) and side-light SETs (`03 96 21`) answer as fast as reads: about 0.4 ms and 0.8 ms, against 0.4 ms for a GET. So neither does a synchronous flash page erase per write. Flux's idle fade still rate-limits them (one every 4 s at most) and dims Flux effects and per-key designs in RAM only (`07 42` without the `03 96 12` save).
+
 ---
 
 ## 9. Asynchronous data reports **[RESOLVED r2]** (L14396; UI handler C15163–15171)

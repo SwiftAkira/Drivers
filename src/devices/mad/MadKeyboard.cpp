@@ -161,6 +161,11 @@ MadKeyboard::MadKeyboard(const HidInfo &info, QObject *parent)
     m_fxSpeed = st.value(QStringLiteral("keyboard-fx/speed"), 1.0).toDouble();
     m_fxIntensity = st.value(QStringLiteral("keyboard-fx/intensity"), 0.85).toDouble();
     m_fxId = st.value(QStringLiteral("keyboard-fx/effect")).toString();
+    m_idleOn = st.value(QStringLiteral("keyboard-idle/on"), true).toBool();
+    m_idleDimMin = std::clamp(st.value(QStringLiteral("keyboard-idle/dimAfter"), 5).toInt(), 1, 120);
+    m_idleOffMin = std::clamp(st.value(QStringLiteral("keyboard-idle/offAfter"), 10).toInt(), m_idleDimMin, 180);
+    m_idleTimer = new QTimer(this);
+    connect(m_idleTimer, &QTimer::timeout, this, &MadKeyboard::idleTick);
     resetFluxPalette();
     const QStringList pal = st.value(QStringLiteral("keyboard-fx/palette/%1").arg(m_fxId)).toStringList();
     for (int i = 0; i < 3 && i < pal.size(); ++i)
@@ -170,6 +175,7 @@ MadKeyboard::MadKeyboard(const HidInfo &info, QObject *parent)
 MadKeyboard::~MadKeyboard()
 {
     m_liveIo = false;
+    idleRestoreBlocking();
     if (m_fxIo) {
         // Hand the LEDs back to the firmware effect before we go.
         m_fxIo = false;
@@ -265,6 +271,7 @@ QStringList MadKeyboard::layerNames() const
 
 void MadKeyboard::start()
 {
+    setupIdleWatch();
     if (demo()) {
         Snapshot s;
         s.version = "1.05";
@@ -367,9 +374,14 @@ void MadKeyboard::applySnapshot(const Snapshot &s)
     m_bottomOptimize = s.bottom;
     m_gameMode = s.game;
     m_defaultLayer = s.defaultLayer;
-    m_light = s.light;
-    if (s.colors.size() == size_t(kKeys)) m_colors = s.colors;
-    m_box = s.box;
+    if (!m_idleActive) {
+        // (While dimmed the keyboard reports the dimmed values; keep ours.)
+        m_light = s.light;
+        if (s.colors.size() == size_t(kKeys)) m_colors = s.colors;
+        m_box = s.box;
+        if (!demo())
+            restoreIdleMarker();
+    }
     const bool resumeFx = !m_fxId.isEmpty() && !m_fxIo;
     m_macroCount = s.macroCount;
     m_macroBufSize = s.macroSize;
@@ -426,13 +438,14 @@ void MadKeyboard::ioIdle()
                     a.wave[k] = float(0.85 * std::sin(k * 0.5 + secs * 11) * (0.6 + 0.4 * std::sin(k * 0.13 + secs * 2.3)));
                 m_engine.setAudio(a);
             }
+            const float dim = m_dim.load(std::memory_order_relaxed);
             const auto frame = m_engine.render(secs, fake);
             QVariantList cols;
             for (const auto &c : frame)
-                cols << QColor::fromRgbF(c.r, c.g, c.b);
+                cols << QColor::fromRgbF(c.r * dim, c.g * dim, c.b * dim);
             std::vector<Rgb> rgb;
             for (const auto &c : frame)
-                rgb.push_back(Rgb{uint8_t(c.r * 255), uint8_t(c.g * 255), uint8_t(c.b * 255)});
+                rgb.push_back(Rgb{uint8_t(c.r * dim * 255), uint8_t(c.g * dim * 255), uint8_t(c.b * dim * 255)});
             onGui([this, cols, rgb] { m_liveColors = cols; m_lastFrame = rgb; m_fxFps = 50; emit liveColorsChanged(); });
         }
         if (m_liveIo) {
@@ -444,7 +457,10 @@ void MadKeyboard::ioIdle()
         return;
     }
     const auto frameStart = std::chrono::steady_clock::now();
-    const bool fx = m_fxIo && m_engine.active();
+    // Idle fade finished: the LEDs are dark, so stop rendering until it lifts.
+    if (m_dim.load(std::memory_order_relaxed) > 0.f)
+        m_fxDark = false;
+    const bool fx = m_fxIo && m_engine.active() && !m_fxDark;
     const bool wantTravel = m_liveIo || (fx && m_engine.needsTravel());
     std::vector<float> travelMm;
     if (wantTravel) {
@@ -839,6 +855,7 @@ QVariantList MadKeyboard::keyColors() const
 
 void MadKeyboard::setLighting(int effect, int speed, int brightness, const QColor &color)
 {
+    idleWake(true);
     if (!m_fxId.isEmpty())
         stopFluxEffect();
     m_light.effect = uint8_t(effect);
@@ -854,6 +871,7 @@ void MadKeyboard::setLighting(int effect, int speed, int brightness, const QColo
 
 void MadKeyboard::setKeyColor(const QVariantList &indices, const QColor &color)
 {
+    idleWake(true);
     const auto idx = toIndices(indices);
     if (idx.empty())
         return;
@@ -879,6 +897,7 @@ void MadKeyboard::setKeyColor(const QVariantList &indices, const QColor &color)
 
 void MadKeyboard::setBoxLight(int mode, bool rainbow, int brightness, int speed, const QColor &color)
 {
+    idleWake(true);
     m_box = BoxLight{uint8_t(std::clamp(mode, 0, 4)), uint8_t(rainbow), uint8_t(std::clamp(brightness, 0, 160)), uint8_t(std::clamp(speed, 0, 40)),
                      uint8_t(color.red()), uint8_t(color.green()), uint8_t(color.blue())};
     emit lightingChanged();
@@ -972,6 +991,7 @@ void MadKeyboard::saveFluxSettings() const
 
 void MadKeyboard::startFluxEffect(const QString &id)
 {
+    idleWake(true);
     const bool switching = !m_fxIo;
     if (id != m_fxId || switching) {
         // Load the remembered palette for this effect (or its defaults).
@@ -1016,6 +1036,7 @@ void MadKeyboard::startFluxEffect(const QString &id)
 
 void MadKeyboard::stopFluxEffect()
 {
+    idleWake(true);
     if (m_fxId.isEmpty() && !m_fxIo)
         return;
     m_fxId.clear();
@@ -1076,6 +1097,7 @@ void MadKeyboard::streamFrame(const std::vector<fx::Color> &frame)
         m_smooth.assign(kKeys * 3, 0.f);
     const bool snappy = m_engine.needsTravel() || m_engine.needsAudio();
     const float alpha = snappy ? 0.6f : 0.35f;
+    const float dim = m_dim.load(std::memory_order_relaxed);   // idle fade
     std::vector<Rgb> rgb(kKeys);
     for (int i = 0; i < kKeys && i < int(frame.size()); ++i) {
         const float in[3] = {frame[i].r, frame[i].g, frame[i].b};
@@ -1083,7 +1105,7 @@ void MadKeyboard::streamFrame(const std::vector<fx::Color> &frame)
         for (int c = 0; c < 3; ++c) {
             float &s = m_smooth[i * 3 + c];
             s += (in[c] - s) * alpha;
-            int v = int(std::lround(s * 255));
+            int v = int(std::lround(s * dim * 255));
             if (v < 3)
                 v = 0; // below this LEDs flicker between off and barely-on
             out[c] = uint8_t(std::clamp(v, 0, 255));
@@ -1107,6 +1129,12 @@ void MadKeyboard::streamFrame(const std::vector<fx::Color> &frame)
         if (!m_proto->setKeyColor(i / kCols, i % kCols, rgb[i]))
             return;
         m_lastSent[i] = rgb[i];
+    }
+    if (dim <= 0.f) {
+        bool dark = true;
+        for (int i = 0; i < kKeys && dark; ++i)
+            dark = !m_present[i] || (!m_lastSent[i].r && !m_lastSent[i].g && !m_lastSent[i].b);
+        m_fxDark = dark;
     }
     // Throttled preview for the UI (~25 fps).
     static thread_local int every = 0;
@@ -1132,6 +1160,7 @@ void MadKeyboard::streamFrame(const std::vector<fx::Color> &frame)
 
 void MadKeyboard::bakeFluxFrame()
 {
+    idleWake(true);
     if (m_lastFrame.size() != size_t(kKeys)) {
         emit toast(QStringLiteral("Start an effect first, then bake the frame you like"), true);
         return;
@@ -1636,6 +1665,7 @@ void MadKeyboard::importSettings(const QVariantMap &s)
         emit toast(QStringLiteral("That profile is for a different device"), true);
         return;
     }
+    idleWake(true);
     const QVariantList act = s.value(QStringLiteral("actuation")).toList();
     if (act.size() == kKeys) {
         for (int i = 0; i < kKeys; ++i)

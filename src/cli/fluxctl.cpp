@@ -140,6 +140,8 @@ static int cmdKeyboard(int argc, char **argv)
             std::printf("deadzones top %.2f mm, bottom %.2f mm\n", d->top / 100.0, d->bottom / 100.0);
         if (auto l = p.lighting())
             std::printf("lighting  effect=%d speed=%d bright=%d rgb=%02x%02x%02x\n", l->effect, l->speed, l->brightness, l->r, l->g, l->b);
+        if (auto b = p.boxLight())
+            std::printf("sidelight mode=%d rainbow=%d bright=%d speed=%d rgb=%02x%02x%02x\n", b->mode, b->colorful, b->brightness, b->speed, b->r, b->g, b->b);
         std::printf("macros    %d slots, %d bytes\n", p.macroCount().value_or(-1), p.macroBufferSize().value_or(-1));
         std::printf("layer     %d  bottomOpt %d  gameMode %d\n", p.defaultLayer().value_or(-1), p.bottomOptimize().value_or(false),
                     p.gameMode().value_or(false));
@@ -383,6 +385,58 @@ static int cmdKeyboard(int argc, char **argv)
         bench("read version", Protocol::make({0x02, 0x96, 0x00}));
         bench("led write, 0 keys", Protocol::make({0x07, 0x42, 0x00, 0x00, 0x00}));
         bench("read lighting", Protocol::make({0x08, 0x41}));
+        return 0;
+    }
+    if (sub == "colors") {
+        // Per-key colours currently in the keyboard's RAM.
+        auto c = p.keyColors();
+        if (!c)
+            return 1;
+        int lit = 0, peak = 0;
+        for (const auto &k : *c) {
+            const int m = std::max({int(k.r), int(k.g), int(k.b)});
+            lit += m > 0;
+            peak = std::max(peak, m);
+        }
+        std::printf("keys lit %d, brightest channel %d\n", lit, peak);
+        return 0;
+    }
+    if (sub == "wtiming") {
+        // Do lighting / side-light SETs hit flash? A synchronous page erase
+        // shows up as a write that is much slower than a read.
+        auto light = p.lighting();
+        auto box = p.boxLight();
+        if (!light || !box)
+            return 1;
+        auto bench = [&](const char *name, auto fn) {
+            std::vector<double> ms;
+            for (int i = 0; i < 24; ++i) {
+                const auto t0 = std::chrono::steady_clock::now();
+                if (!fn(i))
+                    continue;
+                ms.push_back(std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count());
+                std::this_thread::sleep_for(std::chrono::milliseconds(40));
+            }
+            std::sort(ms.begin(), ms.end());
+            if (ms.empty()) { std::printf("%-22s no replies\n", name); return; }
+            std::printf("%-22s n=%zu  min %.2f  p50 %.2f  p90 %.2f  max %.2f ms\n", name, ms.size(), ms.front(), ms[ms.size() / 2],
+                        ms[ms.size() * 9 / 10], ms.back());
+        };
+        bench("read lighting", [&](int) { return p.lighting().has_value(); });
+        bench("read side light", [&](int) { return p.boxLight().has_value(); });
+        bench("write lighting", [&](int i) {
+            Lighting l = *light;
+            l.brightness = uint8_t(std::max(1, light->brightness - (i & 1)));
+            return p.setLighting(l);
+        });
+        bench("write side light", [&](int i) {
+            BoxLight b = *box;
+            b.brightness = uint8_t(std::max(0, box->brightness - (i & 1)));
+            return p.setBoxLight(b);
+        });
+        p.setLighting(*light);
+        p.setBoxLight(*box);
+        std::printf("lighting effect=%d bright=%d   side mode=%d bright=%d\n", light->effect, light->brightness, box->mode, box->brightness);
         return 0;
     }
     if (sub == "adc") {

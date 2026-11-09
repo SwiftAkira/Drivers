@@ -40,6 +40,7 @@ LAMZU and MADLIONS only ship configuration tools for Windows and Chrome. On Linu
 - **Keyboard:** per-key actuation, Rapid Trigger, SOCD / Snap Tap, Dynamic Keystroke, keymap, macros, lighting.
 - **Flux Effects:** 29 live, per-key lighting effects. Some react to how *deep* you press a key, some react to the music you're playing.
 - **osu! mode:** one switch for hair-trigger tapping keys, and the same switch puts your old settings back.
+- **Idle fade:** when you step away, the backlight and side light slowly dim, then switch off. Touch any key or the mouse and they're back.
 
 ## <img src="docs/icons/hardware.svg" width="24" height="24" alt=""> Supported hardware
 
@@ -172,6 +173,7 @@ flux --demo
   - Fn, Fn Lock, Win ⇄ Mac, WASD ⇄ arrows and NKRO toggles.
 - **Macros:** VIA-style macros you can place on any key.
 - **Lighting:** the keyboard's 21 built-in effects, per-key painting, the side light, and [Flux Effects](#-flux-effects).
+- **Idle fade:** after 5 minutes without keyboard or mouse input (adjustable) the backlight and side light start dimming, and they're fully off at 10 minutes. A video player or keep-awake app doesn't stop it, since only real input counts. Set it under **Lighting → When you step away**, where **Preview** plays the whole fade in a few seconds.
 - **Settings:** competitive mode, bottom-out trigger, Win-key lock, NKRO, Mac mode, keymap reset, factory reset.
 
 </details>
@@ -273,7 +275,8 @@ fluxctl mouse info               # firmware, polling, LOD, battery, toggles
 fluxctl mouse dpi                # DPI stages (* = active)
 fluxctl mouse set-dpi 2 1600     # set stage 2 to 1600 DPI
 fluxctl mouse polling 4000       # polling rate in Hz
-fluxctl kb info                  # firmware, features, lighting, macros
+fluxctl kb info                  # firmware, features, lighting, side light, macros
+fluxctl kb colors                # how many keys are lit right now
 fluxctl kb actuation             # actuation point of every key (mm)
 fluxctl kb travel                # live key depth snapshot (mm)
 fluxctl kb keymap                # raw keycodes for all 4 layers
@@ -304,6 +307,12 @@ Wireless mice power down when idle. Move or click it; Flux notices within a few 
 <summary><b>My lighting effect stops when I close Flux</b></summary>
 
 Live effects are drawn by Flux. Closing the window keeps Flux running in the tray, but **Quit** stops the effect. Turn on **Flux Settings → Open at login**, or use **Bake** to save a frame to the keyboard permanently.
+</details>
+
+<details>
+<summary><b>The keyboard lights don't turn off when I'm away</b></summary>
+
+Check **Lighting → When you step away** is on, and hit **Preview** to see the fade work. Idle is detected through the KDE Plasma (KWin) Wayland session; on X11 Flux falls back to KDE's idle timer, which a playing video can hold off. Flux has to be running (window or tray) for the fade to happen.
 </details>
 
 <details>
@@ -387,6 +396,7 @@ qml/               the interface (controls/, pages/)
 - [x] Full MAD LIGHT 60 HE support, including Rapid Trigger and SOCD
 - [x] 29 live lighting effects (key-reactive and audio-reactive)
 - [x] osu! mode
+- [x] Idle fade for the backlight and side light
 - [ ] AUR package
 - [ ] Global hotkey for osu! mode
 - [ ] More LAMZU Aurora mice and FGG DuckBread keyboards

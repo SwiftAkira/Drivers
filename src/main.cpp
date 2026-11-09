@@ -16,8 +16,11 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
+#include <QSocketNotifier>
 #include <QSurfaceFormat>
 
+#include <csignal>
+#include <sys/socket.h>
 #include <unistd.h>
 
 using namespace flux;
@@ -25,6 +28,33 @@ using namespace flux;
 static QString instanceSocketName()
 {
     return QStringLiteral("flux-%1").arg(::getuid());
+}
+
+// SIGTERM/SIGINT/SIGHUP (logout, shutdown, kill) quit through the event loop,
+// so devices get to hand their lighting back before Flux exits.
+static int g_sigFd[2] = {-1, -1};
+static void onQuitSignal(int)
+{
+    const char c = 1;
+    [[maybe_unused]] auto n = ::write(g_sigFd[0], &c, 1);
+}
+static void installQuitSignals(QCoreApplication &app)
+{
+    if (::socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, g_sigFd) != 0)
+        return;
+    auto *sn = new QSocketNotifier(g_sigFd[1], QSocketNotifier::Read, &app);
+    QObject::connect(sn, &QSocketNotifier::activated, &app, [sn, &app] {
+        sn->setEnabled(false);
+        char c;
+        [[maybe_unused]] auto n = ::read(g_sigFd[1], &c, 1);
+        app.quit();
+    });
+    struct sigaction sa {};
+    sa.sa_handler = onQuitSignal;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    for (int sig : {SIGTERM, SIGINT, SIGHUP})
+        ::sigaction(sig, &sa, nullptr);
 }
 
 int main(int argc, char *argv[])
@@ -42,6 +72,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
+    installQuitSignals(app);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("dev.flux.Flux"), QIcon(QStringLiteral(":/qt/qml/Flux/resources/flux.svg"))));
 
     QCommandLineParser parser;
@@ -204,6 +235,13 @@ int main(int argc, char *argv[])
         });
         timer->start();
     }
+
+    // Debug hook: play the idle fade on the keyboard shortly after start.
+    if (qEnvironmentVariableIsSet("FLUX_IDLE_PREVIEW"))
+        QTimer::singleShot(4000, &app, [&devices] {
+            if (QObject *kb = devices.keyboard())
+                QMetaObject::invokeMethod(kb, "previewIdleFade");
+        });
 
     return app.exec();
 }

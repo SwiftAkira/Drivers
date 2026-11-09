@@ -40,7 +40,8 @@ ScrollPage {
             readonly property var leds: page.device ? (page.device.fluxEffect ? page.device.liveColors : page.device.keyColors) : null
             labelFor: page.tab === 2 ? null : (i) => ""
             ledColors: leds
-            fillOpacity: 0.88
+            // Flux frames already carry the idle fade; other modes show it here.
+            fillOpacity: 0.88 * (page.device && !page.device.fluxEffect ? page.device.idleLevel : 1)
             fillFor: (i) => leds ? leds[i] : undefined
         }
     }
@@ -284,6 +285,51 @@ ScrollPage {
                     onPicked: (c) => page.device.setBoxLight(page.device.boxMode, false, page.device.boxBrightness, page.device.boxSpeed, c)
                 }
             }
+        }
+    }
+
+    // ── Idle fade (applies to every mode above) ─────────────────────────
+    SectionHeader {
+        text: "When you step away"
+        detail: !page.device || page.device.idleLevel >= 0.999 ? ""
+                : page.device.idleLevel > 0 ? "Dimming · " + Math.round(page.device.idleLevel * 100) + "%" : "Lights off"
+    }
+    Card {
+        SettingRow {
+            icon: "moon"
+            iconTint: Theme.indigo
+            title: "Fade out when idle"
+            subtitle: "The backlight and side light dim when you stop using your PC, then switch off. Touch any key or the mouse and they're back."
+            Toggle {
+                checked: page.device ? page.device.idleFade : true
+                onToggled: (v) => page.device.setIdleFade(v, page.device.idleDimAfter, page.device.idleOffAfter)
+            }
+        }
+        SliderRow {
+            enabled: page.device && page.device.idleFade
+            opacity: enabled ? 1 : 0.4
+            title: "Start dimming after"
+            from: 1; to: 30; stepSize: 1
+            value: page.device ? page.device.idleDimAfter : 5
+            format: (v) => Math.round(v) + " min"
+            onCommitted: (v) => page.device.setIdleFade(true, Math.round(v), Math.max(Math.round(v), page.device.idleOffAfter))
+        }
+        SliderRow {
+            enabled: page.device && page.device.idleFade
+            opacity: enabled ? 1 : 0.4
+            title: "Fully off after"
+            subtitle: "Brightness slides down gradually between the two."
+            from: 1; to: 60; stepSize: 1
+            value: page.device ? page.device.idleOffAfter : 10
+            format: (v) => Math.round(v) + " min"
+            onCommitted: (v) => page.device.setIdleFade(true, Math.min(page.device.idleDimAfter, Math.round(v)), Math.round(v))
+        }
+        SettingRow {
+            icon: "play"
+            iconTint: Theme.green
+            title: "Preview"
+            subtitle: "Plays the whole fade in a few seconds, then turns everything back on."
+            FButton { compact: true; text: "Preview"; onClicked: page.device.previewIdleFade() }
         }
     }
 }

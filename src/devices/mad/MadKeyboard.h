@@ -9,12 +9,15 @@
 #include <QColor>
 #include <QElapsedTimer>
 #include <QHash>
+#include <QTimer>
 #include <QVariantList>
 
 #include <atomic>
 #include <memory>
 
 namespace flux {
+
+class InputIdle;
 
 class MadKeyboard : public DeviceBase {
     Q_OBJECT
@@ -89,6 +92,11 @@ class MadKeyboard : public DeviceBase {
     Q_PROPERTY(int boxBrightness READ boxBrightness NOTIFY lightingChanged)
     Q_PROPERTY(int boxSpeed READ boxSpeed NOTIFY lightingChanged)
     Q_PROPERTY(QColor boxColor READ boxColor NOTIFY lightingChanged)
+    // Idle fade: backlight + side light dim after a while without input, then go dark.
+    Q_PROPERTY(bool idleFade READ idleFade NOTIFY idleChanged)
+    Q_PROPERTY(int idleDimAfter READ idleDimAfter NOTIFY idleChanged)    // minutes
+    Q_PROPERTY(int idleOffAfter READ idleOffAfter NOTIFY idleChanged)    // minutes
+    Q_PROPERTY(double idleLevel READ idleLevel NOTIFY idleLevelChanged)  // 1 = normal, 0 = dark
 
 public:
     MadKeyboard(const HidInfo &info, QObject *parent);
@@ -162,6 +170,10 @@ public:
     int boxBrightness() const { return m_box.brightness; }
     int boxSpeed() const { return m_box.speed; }
     QColor boxColor() const { return QColor(m_box.r, m_box.g, m_box.b); }
+    bool idleFade() const { return m_idleOn; }
+    int idleDimAfter() const { return m_idleDimMin; }
+    int idleOffAfter() const { return m_idleOffMin; }
+    double idleLevel() const { return m_idleLevel; }
 
     // Travel
     Q_INVOKABLE void setActuation(const QVariantList &indices, double mm);
@@ -185,6 +197,9 @@ public:
     Q_INVOKABLE void setLighting(int effect, int speed, int brightness, const QColor &color);
     Q_INVOKABLE void setKeyColor(const QVariantList &indices, const QColor &color);
     Q_INVOKABLE void setBoxLight(int mode, bool rainbow, int brightness, int speed, const QColor &color);
+    // Idle fade
+    Q_INVOKABLE void setIdleFade(bool on, int dimAfterMin, int offAfterMin);
+    Q_INVOKABLE void previewIdleFade();   // the whole fade in a few seconds, then back on
     // Flux live lighting
     Q_INVOKABLE void startFluxEffect(const QString &id);
     Q_INVOKABLE void stopFluxEffect();
@@ -229,6 +244,8 @@ signals:
     void fluxChanged();
     void osuChanged();
     void liveColorsChanged();
+    void idleChanged();
+    void idleLevelChanged();
 
 private:
     struct Snapshot {
@@ -320,6 +337,39 @@ private:
     void updateAudioTap();
     bool m_osuMode = false;
     QList<int> m_osuKeys;   // empty = default A + D
+
+    // Idle fade (MadKeyboardIdle.cpp). Flux effects and per-key designs are
+    // dimmed in RAM only; built-in effects and the side light need SETs that
+    // the keyboard keeps, so those are rate-limited and a restore marker in
+    // QSettings undoes them if Flux dies while the lights are down.
+    enum class DimPath { None, Flux, PerKey, BuiltIn };
+    void setupIdleWatch();
+    void beginIdleFade(int fadeMs, bool preview);
+    void idleTick();
+    void applyIdleLevel(double level, bool final);
+    void idleWake(bool instant);
+    void restoreIdleMarker();
+    void saveIdleMarker() const;
+    void clearIdleMarker() const;
+    void idleRestoreBlocking();
+    bool m_idleOn = true;
+    int m_idleDimMin = 5, m_idleOffMin = 10;
+    InputIdle *m_inputIdle = nullptr;
+    double m_idleLevel = 1.0;
+    bool m_idleActive = false;      // fading or dark
+    bool m_idlePreview = false;
+    bool m_idleWaking = false;      // Flux ramp back up
+    int m_idleFadeMs = 0;
+    QTimer *m_idleTimer = nullptr;
+    QElapsedTimer m_idleClock;
+    DimPath m_dimPath = DimPath::None;
+    bool m_dimBox = false;
+    int m_dimLastBright = -1, m_dimLastBox = -1, m_dimLastKeys = -1;
+    QElapsedTimer m_dimHwClock, m_dimBoxClock, m_dimKeysClock;
+    double m_wakeFrom = 0;
+    std::atomic<float> m_dim{1.f};          // Flux stream scale, read on the I/O thread
+    bool m_fxDark = false;                  // I/O thread: dark frame sent at m_dim == 0
+    std::vector<mad::Rgb> m_dimKeysSent;    // I/O thread: per-key RAM colours while dimmed
 };
 
 } // namespace flux
