@@ -1,0 +1,31 @@
+# Local PKGBUILD: builds Flux from this checkout.
+#   cd packaging/arch && makepkg -si
+pkgname=flux-peripherals
+_appname=flux
+pkgver=0.1.0
+pkgrel=3
+pkgdesc="Native settings app for the LAMZU INCA 8K mouse and MADLIONS MAD LIGHT 60 HE keyboard"
+arch=('x86_64')
+license=('MIT')
+depends=('qt6-base' 'qt6-declarative' 'qt6-svg' 'hidapi' 'systemd-libs'
+         'kwindowsystem' 'kstatusnotifieritem')
+makedepends=('cmake' 'ninja' 'qt6-shadertools')
+optdepends=('libpulse: audio-reactive lighting effects (parec)')
+provides=('flux')
+install=flux.install
+source=()
+sha256sums=()
+
+_srcdir() { realpath "$startdir/../.."; }
+
+build() {
+    cmake -S "$(_srcdir)" -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr
+    cmake --build build
+}
+
+package() {
+    DESTDIR="$pkgdir" cmake --install build
+    install -Dm644 "$(_srcdir)/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

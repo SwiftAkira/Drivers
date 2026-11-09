@@ -1,0 +1,1842 @@
+{
+ "device": "MADLIONS MAD LIGHT 60 HE (VID 0x373B PID 0x10F6)",
+ "source": "Vendor layout object `Ft`, selected by Ut[\"MAD LIGHT 60HE\"] (key = device-table custom.title) in pretty/fgg-deob/ConfigPage-eQr_MPuY.js L6320-6901 (Ut table L8545). Status: VERIFIED from vendor UI data (not checked on hardware).",
+ "matrix": {
+  "rows": 5,
+  "cols": 14,
+  "layers": 4,
+  "keyIndex": "index = row*14 + col (row-major); used by all bulk buffers"
+ },
+ "layers": [
+  {
+   "index": 0,
+   "name": "Win Base"
+  },
+  {
+   "index": 1,
+   "name": "Win Fn"
+  },
+  {
+   "index": 2,
+   "name": "Mac Base"
+  },
+  {
+   "index": 3,
+   "name": "Mac Fn"
+  }
+ ],
+ "layerNamesSource": "ConfigPage-eQr_MPuY.js `Nt` (L8533)",
+ "units": "1u key units, x/y = top-left corner, total width 15u x 5u. Derived from vendor pixel layout: x = round4((l-44)/53.5), w = gap to next key (last key ends at 15u). vendorPx = raw vendor drawing values (key cap = 50px * wMul wide, 50px high; header w=50,h=50,gap=2,width=876,height=318,padding=16).",
+ "note": "Vendor drawing shows a 2u Left Shift and 3u Right Shift (matrix 3,1 and 3,13) and Fn as the right-most bottom key (4,12). `defaults` are the vendor UI factory-default keycodes (used by the UI for labels and \"restore default\"); missing entries mean the UI defines none (firmware value probably KC_TRNS 0x0001 - read the real keymap from the device).",
+ "keys": [
+  {
+   "row": 0,
+   "col": 0,
+   "label": "Esc",
+   "x": 0,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 44,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0029",
+     "name": "KC_ESCAPE"
+    },
+    "1": {
+     "code": "0x0035",
+     "name": "KC_GRAVE"
+    },
+    "2": {
+     "code": "0x0029",
+     "name": "KC_ESCAPE"
+    },
+    "3": {
+     "code": "0x0035",
+     "name": "KC_GRAVE"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 1,
+   "label": "1",
+   "x": 1,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 97,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x001E",
+     "name": "KC_1"
+    },
+    "1": {
+     "code": "0x003A",
+     "name": "KC_F1"
+    },
+    "2": {
+     "code": "0x001E",
+     "name": "KC_1"
+    },
+    "3": {
+     "code": "0x003A",
+     "name": "KC_F1"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "label": "2",
+   "x": 2,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 150,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x001F",
+     "name": "KC_2"
+    },
+    "1": {
+     "code": "0x003B",
+     "name": "KC_F2"
+    },
+    "2": {
+     "code": "0x001F",
+     "name": "KC_2"
+    },
+    "3": {
+     "code": "0x003B",
+     "name": "KC_F2"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "label": "3",
+   "x": 3,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 204,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0020",
+     "name": "KC_3"
+    },
+    "1": {
+     "code": "0x003C",
+     "name": "KC_F3"
+    },
+    "2": {
+     "code": "0x0020",
+     "name": "KC_3"
+    },
+    "3": {
+     "code": "0x003C",
+     "name": "KC_F3"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 4,
+   "label": "4",
+   "x": 4,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 259,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0021",
+     "name": "KC_4"
+    },
+    "1": {
+     "code": "0x003D",
+     "name": "KC_F4"
+    },
+    "2": {
+     "code": "0x0021",
+     "name": "KC_4"
+    },
+    "3": {
+     "code": "0x003D",
+     "name": "KC_F4"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 5,
+   "label": "5",
+   "x": 5,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 313,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0022",
+     "name": "KC_5"
+    },
+    "1": {
+     "code": "0x003E",
+     "name": "KC_F5"
+    },
+    "2": {
+     "code": "0x0022",
+     "name": "KC_5"
+    },
+    "3": {
+     "code": "0x003E",
+     "name": "KC_F5"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 6,
+   "label": "6",
+   "x": 6,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 367,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0023",
+     "name": "KC_6"
+    },
+    "1": {
+     "code": "0x003F",
+     "name": "KC_F6"
+    },
+    "2": {
+     "code": "0x0023",
+     "name": "KC_6"
+    },
+    "3": {
+     "code": "0x003F",
+     "name": "KC_F6"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 7,
+   "label": "7",
+   "x": 7,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 421,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0024",
+     "name": "KC_7"
+    },
+    "1": {
+     "code": "0x0040",
+     "name": "KC_F7"
+    },
+    "2": {
+     "code": "0x0024",
+     "name": "KC_7"
+    },
+    "3": {
+     "code": "0x0040",
+     "name": "KC_F7"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 8,
+   "label": "8",
+   "x": 8,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 475,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0025",
+     "name": "KC_8"
+    },
+    "1": {
+     "code": "0x0041",
+     "name": "KC_F8"
+    },
+    "2": {
+     "code": "0x0025",
+     "name": "KC_8"
+    },
+    "3": {
+     "code": "0x0041",
+     "name": "KC_F8"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 9,
+   "label": "9",
+   "x": 9,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 529,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0026",
+     "name": "KC_9"
+    },
+    "1": {
+     "code": "0x0042",
+     "name": "KC_F9"
+    },
+    "2": {
+     "code": "0x0026",
+     "name": "KC_9"
+    },
+    "3": {
+     "code": "0x0042",
+     "name": "KC_F9"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 10,
+   "label": "0",
+   "x": 10,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 583,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0027",
+     "name": "KC_0"
+    },
+    "1": {
+     "code": "0x0043",
+     "name": "KC_F10"
+    },
+    "2": {
+     "code": "0x0027",
+     "name": "KC_0"
+    },
+    "3": {
+     "code": "0x0043",
+     "name": "KC_F10"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 11,
+   "label": "-",
+   "x": 11,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 637,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x002D",
+     "name": "KC_MINUS"
+    },
+    "1": {
+     "code": "0x0044",
+     "name": "KC_F11"
+    },
+    "2": {
+     "code": "0x002D",
+     "name": "KC_MINUS"
+    },
+    "3": {
+     "code": "0x0044",
+     "name": "KC_F11"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 12,
+   "label": "=",
+   "x": 12,
+   "y": 0,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 691,
+    "t": 24,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x002E",
+     "name": "KC_EQUAL"
+    },
+    "1": {
+     "code": "0x0045",
+     "name": "KC_F12"
+    },
+    "2": {
+     "code": "0x002E",
+     "name": "KC_EQUAL"
+    },
+    "3": {
+     "code": "0x0045",
+     "name": "KC_F12"
+    }
+   }
+  },
+  {
+   "row": 0,
+   "col": 13,
+   "label": "Backspace",
+   "x": 13,
+   "y": 0,
+   "w": 2,
+   "h": 1,
+   "vendorPx": {
+    "l": 746,
+    "t": 24,
+    "wMul": 2
+   },
+   "defaults": {
+    "0": {
+     "code": "0x002A",
+     "name": "KC_BSPACE"
+    },
+    "1": null,
+    "2": {
+     "code": "0x002A",
+     "name": "KC_BSPACE"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 1,
+   "col": 0,
+   "label": "Tab",
+   "x": 0,
+   "y": 1,
+   "w": 1.5,
+   "h": 1,
+   "vendorPx": {
+    "l": 44,
+    "t": 78,
+    "wMul": 1.55
+   },
+   "defaults": {
+    "0": {
+     "code": "0x002B",
+     "name": "KC_TAB"
+    },
+    "1": {
+     "code": "0x7820",
+     "name": "RGB_TOG"
+    },
+    "2": {
+     "code": "0x002B",
+     "name": "KC_TAB"
+    },
+    "3": {
+     "code": "0x7820",
+     "name": "RGB_TOG"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "label": "Q",
+   "x": 1.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 124,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0014",
+     "name": "KC_Q"
+    },
+    "1": {
+     "code": "0x7827",
+     "name": "RGB_VAI (bright+)"
+    },
+    "2": {
+     "code": "0x0014",
+     "name": "KC_Q"
+    },
+    "3": {
+     "code": "0x7827",
+     "name": "RGB_VAI (bright+)"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "label": "W",
+   "x": 2.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 177,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x001A",
+     "name": "KC_W"
+    },
+    "1": {
+     "code": "0x7821",
+     "name": "RGB_MOD (mode+)"
+    },
+    "2": {
+     "code": "0x001A",
+     "name": "KC_W"
+    },
+    "3": {
+     "code": "0x7821",
+     "name": "RGB_MOD (mode+)"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "label": "E",
+   "x": 3.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 230,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0008",
+     "name": "KC_E"
+    },
+    "1": {
+     "code": "0x7823",
+     "name": "RGB_HUI"
+    },
+    "2": {
+     "code": "0x0008",
+     "name": "KC_E"
+    },
+    "3": {
+     "code": "0x7823",
+     "name": "RGB_HUI"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "label": "R",
+   "x": 4.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 283,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0015",
+     "name": "KC_R"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0015",
+     "name": "KC_R"
+    },
+    "3": {
+     "code": "0x00C2",
+     "name": "KC_LAUNCHPAD"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "label": "T",
+   "x": 5.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 336,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0017",
+     "name": "KC_T"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0017",
+     "name": "KC_T"
+    },
+    "3": {
+     "code": "0x00BE",
+     "name": "KC_BRIGHTNESS_DOWN"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "label": "Y",
+   "x": 6.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 389,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x001C",
+     "name": "KC_Y"
+    },
+    "1": null,
+    "2": {
+     "code": "0x001C",
+     "name": "KC_Y"
+    },
+    "3": {
+     "code": "0x00BD",
+     "name": "KC_BRIGHTNESS_UP"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "label": "U",
+   "x": 7.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 442,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0018",
+     "name": "KC_U"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0018",
+     "name": "KC_U"
+    },
+    "3": {
+     "code": "0x00AC",
+     "name": "KC_MEDIA_PREV_TRACK"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 8,
+   "label": "I",
+   "x": 8.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 495,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x000C",
+     "name": "KC_I"
+    },
+    "1": null,
+    "2": {
+     "code": "0x000C",
+     "name": "KC_I"
+    },
+    "3": {
+     "code": "0x00AE",
+     "name": "KC_MEDIA_PLAY_PAUSE"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 9,
+   "label": "O",
+   "x": 9.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 548,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0012",
+     "name": "KC_O"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0012",
+     "name": "KC_O"
+    },
+    "3": {
+     "code": "0x00AB",
+     "name": "KC_MEDIA_NEXT_TRACK"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 10,
+   "label": "P",
+   "x": 10.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 601,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0013",
+     "name": "KC_P"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0013",
+     "name": "KC_P"
+    },
+    "3": {
+     "code": "0x00A8",
+     "name": "KC_AUDIO_MUTE"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 11,
+   "label": "[",
+   "x": 11.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 654,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x002F",
+     "name": "KC_LBRACKET"
+    },
+    "1": null,
+    "2": {
+     "code": "0x002F",
+     "name": "KC_LBRACKET"
+    },
+    "3": {
+     "code": "0x00AA",
+     "name": "KC_AUDIO_VOL_DOWN"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 12,
+   "label": "]",
+   "x": 12.5,
+   "y": 1,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 708,
+    "t": 78,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0030",
+     "name": "KC_RBRACKET"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0030",
+     "name": "KC_RBRACKET"
+    },
+    "3": {
+     "code": "0x00A9",
+     "name": "KC_AUDIO_VOL_UP"
+    }
+   }
+  },
+  {
+   "row": 1,
+   "col": 13,
+   "label": "\\",
+   "x": 13.5,
+   "y": 1,
+   "w": 1.5,
+   "h": 1,
+   "vendorPx": {
+    "l": 762,
+    "t": 78,
+    "wMul": 1.65
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0031",
+     "name": "KC_BSLASH"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0031",
+     "name": "KC_BSLASH"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 0,
+   "label": "Caps Lock",
+   "x": 0,
+   "y": 2,
+   "w": 1.75,
+   "h": 1,
+   "vendorPx": {
+    "l": 44,
+    "t": 132,
+    "wMul": 1.85
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0039",
+     "name": "KC_CAPSLOCK"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0039",
+     "name": "KC_CAPSLOCK"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "label": "A",
+   "x": 1.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 140,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0004",
+     "name": "KC_A"
+    },
+    "1": {
+     "code": "0x7828",
+     "name": "RGB_VAD (bright-)"
+    },
+    "2": {
+     "code": "0x0004",
+     "name": "KC_A"
+    },
+    "3": {
+     "code": "0x7828",
+     "name": "RGB_VAD (bright-)"
+    }
+   }
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "label": "S",
+   "x": 2.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 193,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0016",
+     "name": "KC_S"
+    },
+    "1": {
+     "code": "0x7822",
+     "name": "RGB_RMOD (mode-)"
+    },
+    "2": {
+     "code": "0x0016",
+     "name": "KC_S"
+    },
+    "3": {
+     "code": "0x7822",
+     "name": "RGB_RMOD (mode-)"
+    }
+   }
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "label": "D",
+   "x": 3.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 246,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0007",
+     "name": "KC_D"
+    },
+    "1": {
+     "code": "0x7824",
+     "name": "RGB_HUD"
+    },
+    "2": {
+     "code": "0x0007",
+     "name": "KC_D"
+    },
+    "3": {
+     "code": "0x7824",
+     "name": "RGB_HUD"
+    }
+   }
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "label": "F",
+   "x": 4.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 299,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0009",
+     "name": "KC_F"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0009",
+     "name": "KC_F"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "label": "G",
+   "x": 5.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 352,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x000A",
+     "name": "KC_G"
+    },
+    "1": null,
+    "2": {
+     "code": "0x000A",
+     "name": "KC_G"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "label": "H",
+   "x": 6.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 405,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x000B",
+     "name": "KC_H"
+    },
+    "1": null,
+    "2": {
+     "code": "0x000B",
+     "name": "KC_H"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "label": "J",
+   "x": 7.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 458,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x000D",
+     "name": "KC_J"
+    },
+    "1": null,
+    "2": {
+     "code": "0x000D",
+     "name": "KC_J"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 8,
+   "label": "K",
+   "x": 8.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 511,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x000E",
+     "name": "KC_K"
+    },
+    "1": null,
+    "2": {
+     "code": "0x000E",
+     "name": "KC_K"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 9,
+   "label": "L",
+   "x": 9.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 564,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x000F",
+     "name": "KC_L"
+    },
+    "1": null,
+    "2": {
+     "code": "0x000F",
+     "name": "KC_L"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 10,
+   "label": ";",
+   "x": 10.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 617,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0033",
+     "name": "KC_SCOLON"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0033",
+     "name": "KC_SCOLON"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 11,
+   "label": "'",
+   "x": 11.75,
+   "y": 2,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 670,
+    "t": 132,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0034",
+     "name": "KC_QUOTE"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0034",
+     "name": "KC_QUOTE"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 2,
+   "col": 13,
+   "label": "Enter",
+   "x": 12.75,
+   "y": 2,
+   "w": 2.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 723,
+    "t": 132,
+    "wMul": 2.42
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0028",
+     "name": "KC_ENTER"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0028",
+     "name": "KC_ENTER"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "label": "Left Shift",
+   "x": 0,
+   "y": 3,
+   "w": 2,
+   "h": 1,
+   "vendorPx": {
+    "l": 44,
+    "t": 186,
+    "wMul": 2.1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x00E1",
+     "name": "KC_LSHIFT"
+    },
+    "1": null,
+    "2": {
+     "code": "0x00E1",
+     "name": "KC_LSHIFT"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "label": "Z",
+   "x": 2,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 153,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x001D",
+     "name": "KC_Z"
+    },
+    "1": null,
+    "2": {
+     "code": "0x001D",
+     "name": "KC_Z"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "label": "X",
+   "x": 3,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 206,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x001B",
+     "name": "KC_X"
+    },
+    "1": null,
+    "2": {
+     "code": "0x001B",
+     "name": "KC_X"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "label": "C",
+   "x": 4,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 259,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0006",
+     "name": "KC_C"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0006",
+     "name": "KC_C"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 6,
+   "label": "V",
+   "x": 5,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 312,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0019",
+     "name": "KC_V"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0019",
+     "name": "KC_V"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 7,
+   "label": "B",
+   "x": 6,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 365,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0005",
+     "name": "KC_B"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0005",
+     "name": "KC_B"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 8,
+   "label": "N",
+   "x": 7,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 418,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0011",
+     "name": "KC_N"
+    },
+    "1": {
+     "code": "0x7E04",
+     "name": "VENDOR: 6KRO/NKRO toggle"
+    },
+    "2": {
+     "code": "0x0011",
+     "name": "KC_N"
+    },
+    "3": {
+     "code": "0x7E04",
+     "name": "VENDOR: 6KRO/NKRO toggle"
+    }
+   }
+  },
+  {
+   "row": 3,
+   "col": 9,
+   "label": "M",
+   "x": 8,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 471,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0010",
+     "name": "KC_M"
+    },
+    "1": {
+     "code": "0x7E02",
+     "name": "VENDOR: Win/Mac mode toggle"
+    },
+    "2": {
+     "code": "0x0010",
+     "name": "KC_M"
+    },
+    "3": {
+     "code": "0x7E02",
+     "name": "VENDOR: Win/Mac mode toggle"
+    }
+   }
+  },
+  {
+   "row": 3,
+   "col": 10,
+   "label": ",",
+   "x": 9,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 524,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0036",
+     "name": "KC_COMMA"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0036",
+     "name": "KC_COMMA"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 11,
+   "label": ".",
+   "x": 10,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 577,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0037",
+     "name": "KC_DOT"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0037",
+     "name": "KC_DOT"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 12,
+   "label": "/",
+   "x": 11,
+   "y": 3,
+   "w": 1,
+   "h": 1,
+   "vendorPx": {
+    "l": 631,
+    "t": 186,
+    "wMul": 1
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0038",
+     "name": "KC_SLASH"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0038",
+     "name": "KC_SLASH"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 3,
+   "col": 13,
+   "label": "Right Shift",
+   "x": 12,
+   "y": 3,
+   "w": 3,
+   "h": 1,
+   "vendorPx": {
+    "l": 685,
+    "t": 186,
+    "wMul": 3.19
+   },
+   "defaults": {
+    "0": {
+     "code": "0x00E5",
+     "name": "KC_RSHIFT"
+    },
+    "1": {
+     "code": "0x7E01",
+     "name": "VENDOR: swap WASD/arrows"
+    },
+    "2": {
+     "code": "0x00E5",
+     "name": "KC_RSHIFT"
+    },
+    "3": {
+     "code": "0x7E01",
+     "name": "VENDOR: swap WASD/arrows"
+    }
+   }
+  },
+  {
+   "row": 4,
+   "col": 0,
+   "label": "Left Ctrl",
+   "x": 0,
+   "y": 4,
+   "w": 1.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 44,
+    "t": 240,
+    "wMul": 1.3
+   },
+   "defaults": {
+    "0": {
+     "code": "0x00E0",
+     "name": "KC_LCTRL"
+    },
+    "1": null,
+    "2": {
+     "code": "0x00E0",
+     "name": "KC_LCTRL"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "label": "Left Win",
+   "x": 1.25,
+   "y": 4,
+   "w": 1.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 112,
+    "t": 240,
+    "wMul": 1.3
+   },
+   "defaults": {
+    "0": {
+     "code": "0x00E3",
+     "name": "KC_LGUI"
+    },
+    "1": {
+     "code": "0x7E03",
+     "name": "VENDOR: Win-key lock"
+    },
+    "2": {
+     "code": "0x00E2",
+     "name": "KC_LALT"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "label": "Left Alt",
+   "x": 2.5,
+   "y": 4,
+   "w": 1.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 180,
+    "t": 240,
+    "wMul": 1.3
+   },
+   "defaults": {
+    "0": {
+     "code": "0x00E2",
+     "name": "KC_LALT"
+    },
+    "1": null,
+    "2": {
+     "code": "0x00E3",
+     "name": "KC_LGUI"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 4,
+   "col": 6,
+   "label": "Space",
+   "x": 3.75,
+   "y": 4,
+   "w": 6.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 248,
+    "t": 240,
+    "wMul": 6.5
+   },
+   "defaults": {
+    "0": {
+     "code": "0x002C",
+     "name": "KC_SPACE"
+    },
+    "1": null,
+    "2": {
+     "code": "0x002C",
+     "name": "KC_SPACE"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 4,
+   "col": 9,
+   "label": "Right Alt",
+   "x": 10,
+   "y": 4,
+   "w": 1.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 576,
+    "t": 240,
+    "wMul": 1.3
+   },
+   "defaults": {
+    "0": {
+     "code": "0x00E6",
+     "name": "KC_RALT"
+    },
+    "1": null,
+    "2": {
+     "code": "0x00E7",
+     "name": "KC_RGUI"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 4,
+   "col": 10,
+   "label": "Menu",
+   "x": 11.25,
+   "y": 4,
+   "w": 1.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 644,
+    "t": 240,
+    "wMul": 1.3
+   },
+   "defaults": {
+    "0": {
+     "code": "0x0065",
+     "name": "KC_APPLICATION"
+    },
+    "1": null,
+    "2": {
+     "code": "0x0065",
+     "name": "KC_APPLICATION"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 4,
+   "col": 11,
+   "label": "Right Ctrl",
+   "x": 12.5,
+   "y": 4,
+   "w": 1.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 712,
+    "t": 240,
+    "wMul": 1.3
+   },
+   "defaults": {
+    "0": {
+     "code": "0x00E4",
+     "name": "KC_RCTRL"
+    },
+    "1": null,
+    "2": {
+     "code": "0x00E4",
+     "name": "KC_RCTRL"
+    },
+    "3": null
+   }
+  },
+  {
+   "row": 4,
+   "col": 12,
+   "label": "Fn",
+   "x": 13.75,
+   "y": 4,
+   "w": 1.25,
+   "h": 1,
+   "vendorPx": {
+    "l": 780,
+    "t": 240,
+    "wMul": 1.3
+   },
+   "defaults": {
+    "0": {
+     "code": "0x5221",
+     "name": "MO(1) \"Win Fn\""
+    },
+    "1": null,
+    "2": {
+     "code": "0x5223",
+     "name": "MO(3) \"Mac Fn\""
+    },
+    "3": null
+   }
+  }
+ ],
+ "unusedPositions": [
+  {
+   "row": 2,
+   "col": 12,
+   "borrow": true
+  },
+  {
+   "row": 3,
+   "col": 0,
+   "borrow": true
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "borrow": true
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "borrow": false
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "borrow": false
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "borrow": false
+  },
+  {
+   "row": 4,
+   "col": 7,
+   "borrow": false
+  },
+  {
+   "row": 4,
+   "col": 8,
+   "borrow": false
+  },
+  {
+   "row": 4,
+   "col": 13,
+   "borrow": false
+  }
+ ],
+ "borrowLayout": {
+  "positions": [
+   "2,12",
+   "3,0",
+   "3,2"
+  ],
+  "meaning": "Matrix positions with no physical key. The UI excludes them from select-all and reads togThs/rtKeys at the FIRST one (\"2,12\") as the initial value of the global actuation/RT sliders."
+ }
+}

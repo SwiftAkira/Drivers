@@ -1,0 +1,5 @@
+# Flux: let the logged-in user configure these devices without root.
+# LAMZU mice and receivers (INCA 8K receiver 37b0:0010, wired 37b0:0009, ...)
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="37b0", TAG+="uaccess"
+# MADLIONS / FGG HE keyboards (MAD LIGHT 60 HE 373b:10f6, ...)
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="373b", TAG+="uaccess"

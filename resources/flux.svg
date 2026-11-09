@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3a3f"/>
+      <stop offset="1" stop-color="#18181b"/>
+    </linearGradient>
+    <linearGradient id="arc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#64d2ff"/>
+      <stop offset="0.55" stop-color="#0a84ff"/>
+      <stop offset="1" stop-color="#5e5ce6"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="224" height="224" rx="52" fill="url(#bg)"/>
+  <rect x="16.5" y="16.5" width="223" height="223" rx="51.5" fill="none" stroke="#ffffff" stroke-opacity="0.12"/>
+  <!-- field lines of a magnet: two nested arcs -->
+  <path d="M70 168 C70 92, 186 92, 186 168" fill="none" stroke="url(#arc)" stroke-width="16" stroke-linecap="round"/>
+  <path d="M100 168 C100 128, 156 128, 156 168" fill="none" stroke="url(#arc)" stroke-width="16" stroke-linecap="round" stroke-opacity="0.7"/>
+  <circle cx="128" cy="176" r="10" fill="#ffffff"/>
+</svg>

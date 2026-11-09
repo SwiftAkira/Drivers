@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Flux
+GenericName=Mouse & Keyboard Settings
+Comment=Configure your LAMZU mouse and MADLIONS HE keyboard
+Exec=flux
+Icon=dev.flux.Flux
+Terminal=false
+Categories=Settings;HardwareSettings;Qt;
+Keywords=mouse;keyboard;dpi;polling;rapid trigger;actuation;lamzu;madlions;rgb;
+StartupWMClass=flux
+SingleMainWindow=true

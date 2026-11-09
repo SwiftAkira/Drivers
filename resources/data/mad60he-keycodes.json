@@ -1,0 +1,2535 @@
+{
+ "device": "MADLIONS MAD LIGHT 60 HE (VID 0x373B PID 0x10F6)",
+ "encoding": {
+  "width_bits": 16,
+  "wire_order": "big-endian: byte0 = keyClass (high byte), byte1 = keyId (low byte)",
+  "note": "Keycodes are QMK 16-bit keycodes using the QMK >=0.19 numbering (layout matches the vendor enum Tu/keyClass values). Basic codes 0x04-0xA4 and 0xE0-0xE7 equal HID usage IDs.",
+  "source": "index-D9yt26aK.js (deob) lines 13167 (enum Tu), 13176-13360 (KeyAction2 classes), 4533 (KC enum), 4537-5217 (label tables)"
+ },
+ "keyClasses": [
+  {
+   "keyClass": "0x00",
+   "name": "general",
+   "range": "0x0000-0x00FF",
+   "meaning": "Basic keycode (see basic[]). keyId 0x01 = KC_TRANSPARENT (\"Use the next lowest non-transparent key\"), 0x00 = KC_NO",
+   "uiClass": "Wu / Hu"
+  },
+  {
+   "keyClass": "0x01-0x1F",
+   "name": "(QK_MODS)",
+   "range": "0x0100-0x1FFF",
+   "meaning": "QMK modifier+key: high byte bits 0x01 Ctrl, 0x02 Shift, 0x04 Alt, 0x08 GUI, 0x10 = right-hand mods; low byte basic keycode. NOT decoded by vendor UI (shows \"Unknown\"). UNVERIFIED",
+   "uiClass": "KeyAction2 (Unknown)"
+  },
+  {
+   "keyClass": "0x20-0x3F",
+   "name": "(QK_MOD_TAP)",
+   "range": "0x2000-0x3FFF",
+   "meaning": "QMK MT(mod,kc) = 0x2000 | (mod5 << 8) | kc. NOT decoded by vendor UI. UNVERIFIED",
+   "uiClass": "KeyAction2 (Unknown)"
+  },
+  {
+   "keyClass": "0x40-0x43",
+   "name": "lt0..lt3",
+   "range": "0x4000-0x43FF",
+   "formula": "LT(layer,kc) = 0x4000 | (layer << 8) | kc, layer 0..3",
+   "meaning": "Layer-tap: kc on tap, momentary layer while held",
+   "uiClass": "LTKeyAction (rc)"
+  },
+  {
+   "keyClass": "0x52",
+   "name": "layer",
+   "range": "0x5200-0x52FF",
+   "formula": "TO(l)=0x5200|l, MO(l)=0x5220|l, DF(l)=0x5240|l, TG(l)=0x5260|l, OSL(l)=0x5280|l, OSM(mod)=0x52A0|mod, TT(l)=0x52C0|l (l = 0..31; this board has 4 layers)",
+   "meaning": "Layer switching (QMK). The vendor locale has descriptions for MO/DF/TG/TT/OSL/TO. Sub-layout from QMK; UNVERIFIED",
+   "uiClass": "ju"
+  },
+  {
+   "keyClass": "0x56",
+   "name": "swap",
+   "range": "0x5600-0x56FF",
+   "meaning": "QMK swap-hands. UNVERIFIED",
+   "uiClass": "Yu"
+  },
+  {
+   "keyClass": "0x57",
+   "name": "tapDance",
+   "range": "0x5700-0x57FF",
+   "formula": "TD(i) = 0x5700 | i",
+   "meaning": "Vendor advanced key slot implemented via Vial tap-dance entries (0xFE 0x0D ...). keyId <= 0x13 (i = 0..19) = MT (hold/tap), keyId >= 0x14 = TGL (toggle). RESOLVED from UI.",
+   "uiClass": "sc"
+  },
+  {
+   "keyClass": "0x70",
+   "name": "magic",
+   "range": "0x7000-0x70FF",
+   "meaning": "QMK magic keycodes (swap ctrl/caps, NKRO toggle, ...). Individual values UNVERIFIED",
+   "uiClass": "$u"
+  },
+  {
+   "keyClass": "0x71",
+   "name": "midi",
+   "range": "0x7100-0x71FF",
+   "meaning": "QMK MIDI",
+   "uiClass": "qu"
+  },
+  {
+   "keyClass": "0x72",
+   "name": "sequencer",
+   "range": "0x7200-0x72FF",
+   "meaning": "QMK sequencer",
+   "uiClass": "Ju"
+  },
+  {
+   "keyClass": "0x74",
+   "name": "programming",
+   "range": "0x7400-0x74FF",
+   "meaning": "QMK joystick / programmable buttons / audio / steno",
+   "uiClass": "Xu"
+  },
+  {
+   "keyClass": "0x77",
+   "name": "macro",
+   "range": "0x7700-0x77FF",
+   "formula": "M(n) = 0x7700 | n (n = VIA dynamic macro index, 0..count-1)",
+   "meaning": "Plays dynamic macro n (macro buffer cmds 0x0C-0x0F)",
+   "uiClass": "Zu"
+  },
+  {
+   "keyClass": "0x78",
+   "name": "light",
+   "range": "0x7800-0x78FF",
+   "meaning": "QMK lighting keycodes (see lighting[]); the UI offers 0x7820-0x7824, 0x7827-0x782A",
+   "uiClass": "Qu"
+  },
+  {
+   "keyClass": "0x7C",
+   "name": "system",
+   "range": "0x7C00-0x7CFF",
+   "meaning": "QMK quantum keycodes (see quantum[])",
+   "uiClass": "ec"
+  },
+  {
+   "keyClass": "0x7E",
+   "name": "kbAndUser",
+   "range": "0x7E00-0x7EFF",
+   "formula": "QK_KB_n = 0x7E00 + n (n=0..31), QK_USER_n = 0x7E40 + n",
+   "meaning": "Vendor keycodes: 0x7E01-0x7E04 feature toggles, 0x7E05-0x7E18 DKS slots 0-19, 0x7E1A-0x7E21 side-light keys (NANO 68 only). See vendor[]. RESOLVED from UI.",
+   "uiClass": "tc"
+  }
+ ],
+ "basic": [
+  {
+   "code": 0,
+   "hex": "0x0000",
+   "name": "KC_NO",
+   "label": "NO",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 1,
+   "hex": "0x0001",
+   "name": "KC_TRANSPARENT",
+   "label": "TRANSPARENT",
+   "web_key_name": null,
+   "source": "bundle (zu.fromDataView: general/keyId 1 = \"Use the next lowest non-transparent key\")"
+  },
+  {
+   "code": 4,
+   "hex": "0x0004",
+   "name": "KC_A",
+   "label": "A",
+   "web_key_name": "KeyA",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 5,
+   "hex": "0x0005",
+   "name": "KC_B",
+   "label": "B",
+   "web_key_name": "KeyB",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 6,
+   "hex": "0x0006",
+   "name": "KC_C",
+   "label": "C",
+   "web_key_name": "KeyC",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 7,
+   "hex": "0x0007",
+   "name": "KC_D",
+   "label": "D",
+   "web_key_name": "KeyD",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 8,
+   "hex": "0x0008",
+   "name": "KC_E",
+   "label": "E",
+   "web_key_name": "KeyE",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 9,
+   "hex": "0x0009",
+   "name": "KC_F",
+   "label": "F",
+   "web_key_name": "KeyF",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 10,
+   "hex": "0x000a",
+   "name": "KC_G",
+   "label": "G",
+   "web_key_name": "KeyG",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 11,
+   "hex": "0x000b",
+   "name": "KC_H",
+   "label": "H",
+   "web_key_name": "KeyH",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 12,
+   "hex": "0x000c",
+   "name": "KC_I",
+   "label": "I",
+   "web_key_name": "KeyI",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 13,
+   "hex": "0x000d",
+   "name": "KC_J",
+   "label": "J",
+   "web_key_name": "KeyJ",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 14,
+   "hex": "0x000e",
+   "name": "KC_K",
+   "label": "K",
+   "web_key_name": "KeyK",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 15,
+   "hex": "0x000f",
+   "name": "KC_L",
+   "label": "L",
+   "web_key_name": "KeyL",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 16,
+   "hex": "0x0010",
+   "name": "KC_M",
+   "label": "M",
+   "web_key_name": "KeyM",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 17,
+   "hex": "0x0011",
+   "name": "KC_N",
+   "label": "N",
+   "web_key_name": "KeyN",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 18,
+   "hex": "0x0012",
+   "name": "KC_O",
+   "label": "O",
+   "web_key_name": "KeyO",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 19,
+   "hex": "0x0013",
+   "name": "KC_P",
+   "label": "P",
+   "web_key_name": "KeyP",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 20,
+   "hex": "0x0014",
+   "name": "KC_Q",
+   "label": "Q",
+   "web_key_name": "KeyQ",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 21,
+   "hex": "0x0015",
+   "name": "KC_R",
+   "label": "R",
+   "web_key_name": "KeyR",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 22,
+   "hex": "0x0016",
+   "name": "KC_S",
+   "label": "S",
+   "web_key_name": "KeyS",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 23,
+   "hex": "0x0017",
+   "name": "KC_T",
+   "label": "T",
+   "web_key_name": "KeyT",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 24,
+   "hex": "0x0018",
+   "name": "KC_U",
+   "label": "U",
+   "web_key_name": "KeyU",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 25,
+   "hex": "0x0019",
+   "name": "KC_V",
+   "label": "V",
+   "web_key_name": "KeyV",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 26,
+   "hex": "0x001a",
+   "name": "KC_W",
+   "label": "W",
+   "web_key_name": "KeyW",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 27,
+   "hex": "0x001b",
+   "name": "KC_X",
+   "label": "X",
+   "web_key_name": "KeyX",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 28,
+   "hex": "0x001c",
+   "name": "KC_Y",
+   "label": "Y",
+   "web_key_name": "KeyY",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 29,
+   "hex": "0x001d",
+   "name": "KC_Z",
+   "label": "Z",
+   "web_key_name": "KeyZ",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 30,
+   "hex": "0x001e",
+   "name": "KC_1",
+   "label": "! 1",
+   "web_key_name": "Digit1",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 31,
+   "hex": "0x001f",
+   "name": "KC_2",
+   "label": "@ 2",
+   "web_key_name": "Digit2",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 32,
+   "hex": "0x0020",
+   "name": "KC_3",
+   "label": "# 3",
+   "web_key_name": "Digit3",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 33,
+   "hex": "0x0021",
+   "name": "KC_4",
+   "label": "$ 4",
+   "web_key_name": "Digit4",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 34,
+   "hex": "0x0022",
+   "name": "KC_5",
+   "label": "% 5",
+   "web_key_name": "Digit5",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 35,
+   "hex": "0x0023",
+   "name": "KC_6",
+   "label": "^ 6",
+   "web_key_name": "Digit6",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 36,
+   "hex": "0x0024",
+   "name": "KC_7",
+   "label": "& 7",
+   "web_key_name": "Digit7",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 37,
+   "hex": "0x0025",
+   "name": "KC_8",
+   "label": "* 8",
+   "web_key_name": "Digit8",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 38,
+   "hex": "0x0026",
+   "name": "KC_9",
+   "label": "( 9",
+   "web_key_name": "Digit9",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 39,
+   "hex": "0x0027",
+   "name": "KC_0",
+   "label": ") 0",
+   "web_key_name": "Digit0",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 40,
+   "hex": "0x0028",
+   "name": "KC_ENTER",
+   "label": "Enter",
+   "web_key_name": "Enter",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 41,
+   "hex": "0x0029",
+   "name": "KC_ESCAPE",
+   "label": "Esc",
+   "web_key_name": "Escape",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 42,
+   "hex": "0x002a",
+   "name": "KC_BACKSPACE",
+   "label": "Back Space",
+   "web_key_name": "Backspace",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 43,
+   "hex": "0x002b",
+   "name": "KC_TAB",
+   "label": "Tab",
+   "web_key_name": "Tab",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 44,
+   "hex": "0x002c",
+   "name": "KC_SPACE",
+   "label": "Space",
+   "web_key_name": "Space",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 45,
+   "hex": "0x002d",
+   "name": "KC_MINUS",
+   "label": "- _",
+   "web_key_name": "Minus",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 46,
+   "hex": "0x002e",
+   "name": "KC_EQUAL",
+   "label": "+ =",
+   "web_key_name": "Equal",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 47,
+   "hex": "0x002f",
+   "name": "KC_LEFT_BRACKET",
+   "label": "{ [",
+   "web_key_name": "BracketLeft",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 48,
+   "hex": "0x0030",
+   "name": "KC_RIGHT_BRACKET",
+   "label": "} ]",
+   "web_key_name": "BracketRight",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 49,
+   "hex": "0x0031",
+   "name": "KC_BACKSLASH",
+   "label": "| \\",
+   "web_key_name": "Backslash",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 50,
+   "hex": "0x0032",
+   "name": "KC_NONUS_HASH",
+   "label": "NONUS_HASH",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 51,
+   "hex": "0x0033",
+   "name": "KC_SEMICOLON",
+   "label": ": ;",
+   "web_key_name": "Semicolon",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 52,
+   "hex": "0x0034",
+   "name": "KC_QUOTE",
+   "label": "\" '",
+   "web_key_name": "Quote",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 53,
+   "hex": "0x0035",
+   "name": "KC_GRAVE",
+   "label": "~ `",
+   "web_key_name": "Backquote",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 54,
+   "hex": "0x0036",
+   "name": "KC_COMMA",
+   "label": "< ,",
+   "web_key_name": "Comma",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 55,
+   "hex": "0x0037",
+   "name": "KC_DOT",
+   "label": "> .",
+   "web_key_name": "Period",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 56,
+   "hex": "0x0038",
+   "name": "KC_SLASH",
+   "label": "? /",
+   "web_key_name": "Slash",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 57,
+   "hex": "0x0039",
+   "name": "KC_CAPS_LOCK",
+   "label": "Caps Lock",
+   "web_key_name": "CapsLock",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 58,
+   "hex": "0x003a",
+   "name": "KC_F1",
+   "label": "F1",
+   "web_key_name": "F1",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 59,
+   "hex": "0x003b",
+   "name": "KC_F2",
+   "label": "F2",
+   "web_key_name": "F2",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 60,
+   "hex": "0x003c",
+   "name": "KC_F3",
+   "label": "F3",
+   "web_key_name": "F3",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 61,
+   "hex": "0x003d",
+   "name": "KC_F4",
+   "label": "F4",
+   "web_key_name": "F4",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 62,
+   "hex": "0x003e",
+   "name": "KC_F5",
+   "label": "F5",
+   "web_key_name": "F5",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 63,
+   "hex": "0x003f",
+   "name": "KC_F6",
+   "label": "F6",
+   "web_key_name": "F6",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 64,
+   "hex": "0x0040",
+   "name": "KC_F7",
+   "label": "F7",
+   "web_key_name": "F7",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 65,
+   "hex": "0x0041",
+   "name": "KC_F8",
+   "label": "F8",
+   "web_key_name": "F8",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 66,
+   "hex": "0x0042",
+   "name": "KC_F9",
+   "label": "F9",
+   "web_key_name": "F9",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 67,
+   "hex": "0x0043",
+   "name": "KC_F10",
+   "label": "F10",
+   "web_key_name": "F10",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 68,
+   "hex": "0x0044",
+   "name": "KC_F11",
+   "label": "F11",
+   "web_key_name": "F11",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 69,
+   "hex": "0x0045",
+   "name": "KC_F12",
+   "label": "F12",
+   "web_key_name": "F12",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 70,
+   "hex": "0x0046",
+   "name": "KC_PRINT_SCREEN",
+   "label": "Print\nScreen",
+   "web_key_name": "PrintScreen",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 71,
+   "hex": "0x0047",
+   "name": "KC_SCROLL_LOCK",
+   "label": "Scroll\nLock",
+   "web_key_name": "ScrollLock",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 72,
+   "hex": "0x0048",
+   "name": "KC_PAUSE",
+   "label": "Pause",
+   "web_key_name": "Pause",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 73,
+   "hex": "0x0049",
+   "name": "KC_INSERT",
+   "label": "Insert",
+   "web_key_name": "Insert",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 74,
+   "hex": "0x004a",
+   "name": "KC_HOME",
+   "label": "Home",
+   "web_key_name": "Home",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 75,
+   "hex": "0x004b",
+   "name": "KC_PAGE_UP",
+   "label": "Page\nUp",
+   "web_key_name": "PageUp",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 76,
+   "hex": "0x004c",
+   "name": "KC_DELETE",
+   "label": "Delete",
+   "web_key_name": "Delete",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 77,
+   "hex": "0x004d",
+   "name": "KC_END",
+   "label": "End",
+   "web_key_name": "End",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 78,
+   "hex": "0x004e",
+   "name": "KC_PAGE_DOWN",
+   "label": "Page\nDown",
+   "web_key_name": "PageDown",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 79,
+   "hex": "0x004f",
+   "name": "KC_RIGHT",
+   "label": "Right",
+   "web_key_name": "ArrowRight",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 80,
+   "hex": "0x0050",
+   "name": "KC_LEFT",
+   "label": "Left",
+   "web_key_name": "ArrowLeft",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 81,
+   "hex": "0x0051",
+   "name": "KC_DOWN",
+   "label": "Down",
+   "web_key_name": "ArrowDown",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 82,
+   "hex": "0x0052",
+   "name": "KC_UP",
+   "label": "Up",
+   "web_key_name": "ArrowUp",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 83,
+   "hex": "0x0053",
+   "name": "KC_NUM_LOCK",
+   "label": "Num\nLock",
+   "web_key_name": "NumLock",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 84,
+   "hex": "0x0054",
+   "name": "KC_KP_SLASH",
+   "label": "/",
+   "web_key_name": "NumpadDivide",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 85,
+   "hex": "0x0055",
+   "name": "KC_KP_ASTERISK",
+   "label": "*",
+   "web_key_name": "NumpadMultiply",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 86,
+   "hex": "0x0056",
+   "name": "KC_KP_MINUS",
+   "label": "-",
+   "web_key_name": "NumpadSubtract",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 87,
+   "hex": "0x0057",
+   "name": "KC_KP_PLUS",
+   "label": "+",
+   "web_key_name": "NumpadAdd",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 88,
+   "hex": "0x0058",
+   "name": "KC_KP_ENTER",
+   "label": "KP_ENTER",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 89,
+   "hex": "0x0059",
+   "name": "KC_KP_1",
+   "label": "1",
+   "web_key_name": "Numpad1",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 90,
+   "hex": "0x005a",
+   "name": "KC_KP_2",
+   "label": "2",
+   "web_key_name": "Numpad2",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 91,
+   "hex": "0x005b",
+   "name": "KC_KP_3",
+   "label": "3",
+   "web_key_name": "Numpad3",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 92,
+   "hex": "0x005c",
+   "name": "KC_KP_4",
+   "label": "4",
+   "web_key_name": "Numpad4",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 93,
+   "hex": "0x005d",
+   "name": "KC_KP_5",
+   "label": "5",
+   "web_key_name": "Numpad5",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 94,
+   "hex": "0x005e",
+   "name": "KC_KP_6",
+   "label": "6",
+   "web_key_name": "Numpad6",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 95,
+   "hex": "0x005f",
+   "name": "KC_KP_7",
+   "label": "7",
+   "web_key_name": "Numpad7",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 96,
+   "hex": "0x0060",
+   "name": "KC_KP_8",
+   "label": "8",
+   "web_key_name": "Numpad8",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 97,
+   "hex": "0x0061",
+   "name": "KC_KP_9",
+   "label": "9",
+   "web_key_name": "Numpad9",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 98,
+   "hex": "0x0062",
+   "name": "KC_KP_0",
+   "label": "0",
+   "web_key_name": "Numpad0",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 99,
+   "hex": "0x0063",
+   "name": "KC_KP_DOT",
+   "label": ".",
+   "web_key_name": "NumpadDecimal",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 100,
+   "hex": "0x0064",
+   "name": "KC_NONUS_BACKSLASH",
+   "label": "NONUS_BACKSLASH",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 101,
+   "hex": "0x0065",
+   "name": "KC_APPLICATION",
+   "label": "APPLICATION",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 102,
+   "hex": "0x0066",
+   "name": "KC_KB_POWER",
+   "label": "KB_POWER",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 103,
+   "hex": "0x0067",
+   "name": "KC_KP_EQUAL",
+   "label": "KP_EQUAL",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 104,
+   "hex": "0x0068",
+   "name": "KC_F13",
+   "label": "F13",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 105,
+   "hex": "0x0069",
+   "name": "KC_F14",
+   "label": "F14",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 106,
+   "hex": "0x006a",
+   "name": "KC_F15",
+   "label": "F15",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 107,
+   "hex": "0x006b",
+   "name": "KC_F16",
+   "label": "F16",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 108,
+   "hex": "0x006c",
+   "name": "KC_F17",
+   "label": "F17",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 109,
+   "hex": "0x006d",
+   "name": "KC_F18",
+   "label": "F18",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 110,
+   "hex": "0x006e",
+   "name": "KC_F19",
+   "label": "F19",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 111,
+   "hex": "0x006f",
+   "name": "KC_F20",
+   "label": "F20",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 112,
+   "hex": "0x0070",
+   "name": "KC_F21",
+   "label": "F21",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 113,
+   "hex": "0x0071",
+   "name": "KC_F22",
+   "label": "F22",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 114,
+   "hex": "0x0072",
+   "name": "KC_F23",
+   "label": "F23",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 115,
+   "hex": "0x0073",
+   "name": "KC_F24",
+   "label": "F24",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 116,
+   "hex": "0x0074",
+   "name": "KC_EXECUTE",
+   "label": "EXECUTE",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 117,
+   "hex": "0x0075",
+   "name": "KC_HELP",
+   "label": "HELP",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 118,
+   "hex": "0x0076",
+   "name": "KC_MENU",
+   "label": "MENU",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 119,
+   "hex": "0x0077",
+   "name": "KC_SELECT",
+   "label": "SELECT",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 120,
+   "hex": "0x0078",
+   "name": "KC_STOP",
+   "label": "STOP",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 121,
+   "hex": "0x0079",
+   "name": "KC_AGAIN",
+   "label": "AGAIN",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 122,
+   "hex": "0x007a",
+   "name": "KC_UNDO",
+   "label": "UNDO",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 123,
+   "hex": "0x007b",
+   "name": "KC_CUT",
+   "label": "CUT",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 124,
+   "hex": "0x007c",
+   "name": "KC_COPY",
+   "label": "COPY",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 125,
+   "hex": "0x007d",
+   "name": "KC_PASTE",
+   "label": "PASTE",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 126,
+   "hex": "0x007e",
+   "name": "KC_FIND",
+   "label": "FIND",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 127,
+   "hex": "0x007f",
+   "name": "KC_KB_MUTE",
+   "label": "KB_MUTE",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 128,
+   "hex": "0x0080",
+   "name": "KC_KB_VOLUME_UP",
+   "label": "KB_VOLUME_UP",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 129,
+   "hex": "0x0081",
+   "name": "KC_KB_VOLUME_DOWN",
+   "label": "KB_VOLUME_DOWN",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 130,
+   "hex": "0x0082",
+   "name": "KC_LOCKING_CAPS_LOCK",
+   "label": "LOCKING_CAPS_LOCK",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 131,
+   "hex": "0x0083",
+   "name": "KC_LOCKING_NUM_LOCK",
+   "label": "LOCKING_NUM_LOCK",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 132,
+   "hex": "0x0084",
+   "name": "KC_LOCKING_SCROLL_LOCK",
+   "label": "LOCKING_SCROLL_LOCK",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 133,
+   "hex": "0x0085",
+   "name": "KC_KP_COMMA",
+   "label": "KP_COMMA",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 134,
+   "hex": "0x0086",
+   "name": "KC_KP_EQUAL_AS400",
+   "label": "KP_EQUAL_AS400",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 135,
+   "hex": "0x0087",
+   "name": "KC_INTERNATIONAL_1",
+   "label": "INTERNATIONAL_1",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 136,
+   "hex": "0x0088",
+   "name": "KC_INTERNATIONAL_2",
+   "label": "INTERNATIONAL_2",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 137,
+   "hex": "0x0089",
+   "name": "KC_INTERNATIONAL_3",
+   "label": "INTERNATIONAL_3",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 138,
+   "hex": "0x008a",
+   "name": "KC_INTERNATIONAL_4",
+   "label": "INTERNATIONAL_4",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 139,
+   "hex": "0x008b",
+   "name": "KC_INTERNATIONAL_5",
+   "label": "INTERNATIONAL_5",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 140,
+   "hex": "0x008c",
+   "name": "KC_INTERNATIONAL_6",
+   "label": "INTERNATIONAL_6",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 141,
+   "hex": "0x008d",
+   "name": "KC_INTERNATIONAL_7",
+   "label": "INTERNATIONAL_7",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 142,
+   "hex": "0x008e",
+   "name": "KC_INTERNATIONAL_8",
+   "label": "INTERNATIONAL_8",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 143,
+   "hex": "0x008f",
+   "name": "KC_INTERNATIONAL_9",
+   "label": "INTERNATIONAL_9",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 144,
+   "hex": "0x0090",
+   "name": "KC_LANGUAGE_1",
+   "label": "LANGUAGE_1",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 145,
+   "hex": "0x0091",
+   "name": "KC_LANGUAGE_2",
+   "label": "LANGUAGE_2",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 146,
+   "hex": "0x0092",
+   "name": "KC_LANGUAGE_3",
+   "label": "LANGUAGE_3",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 147,
+   "hex": "0x0093",
+   "name": "KC_LANGUAGE_4",
+   "label": "LANGUAGE_4",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 148,
+   "hex": "0x0094",
+   "name": "KC_LANGUAGE_5",
+   "label": "LANGUAGE_5",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 149,
+   "hex": "0x0095",
+   "name": "KC_LANGUAGE_6",
+   "label": "LANGUAGE_6",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 150,
+   "hex": "0x0096",
+   "name": "KC_LANGUAGE_7",
+   "label": "LANGUAGE_7",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 151,
+   "hex": "0x0097",
+   "name": "KC_LANGUAGE_8",
+   "label": "LANGUAGE_8",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 152,
+   "hex": "0x0098",
+   "name": "KC_LANGUAGE_9",
+   "label": "LANGUAGE_9",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 153,
+   "hex": "0x0099",
+   "name": "KC_ALTERNATE_ERASE",
+   "label": "ALTERNATE_ERASE",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 154,
+   "hex": "0x009a",
+   "name": "KC_SYSTEM_REQUEST",
+   "label": "SYSTEM_REQUEST",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 155,
+   "hex": "0x009b",
+   "name": "KC_CANCEL",
+   "label": "CANCEL",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 156,
+   "hex": "0x009c",
+   "name": "KC_CLEAR",
+   "label": "CLEAR",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 157,
+   "hex": "0x009d",
+   "name": "KC_PRIOR",
+   "label": "PRIOR",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 158,
+   "hex": "0x009e",
+   "name": "KC_RETURN",
+   "label": "RETURN",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 159,
+   "hex": "0x009f",
+   "name": "KC_SEPARATOR",
+   "label": "SEPARATOR",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 160,
+   "hex": "0x00a0",
+   "name": "KC_OUT",
+   "label": "OUT",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 161,
+   "hex": "0x00a1",
+   "name": "KC_OPER",
+   "label": "OPER",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 162,
+   "hex": "0x00a2",
+   "name": "KC_CLEAR_AGAIN",
+   "label": "CLEAR_AGAIN",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 163,
+   "hex": "0x00a3",
+   "name": "KC_CRSEL",
+   "label": "CRSEL",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 164,
+   "hex": "0x00a4",
+   "name": "KC_EXSEL",
+   "label": "EXSEL",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 165,
+   "hex": "0x00a5",
+   "name": "KC_SYSTEM_POWER",
+   "label": "SYSTEM_POWER",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 166,
+   "hex": "0x00a6",
+   "name": "KC_SYSTEM_SLEEP",
+   "label": "SYSTEM_SLEEP",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 167,
+   "hex": "0x00a7",
+   "name": "KC_SYSTEM_WAKE",
+   "label": "SYSTEM_WAKE",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 168,
+   "hex": "0x00a8",
+   "name": "KC_AUDIO_MUTE",
+   "label": "AUDIO_MUTE",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 169,
+   "hex": "0x00a9",
+   "name": "KC_AUDIO_VOL_UP",
+   "label": "AUDIO_VOL_UP",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 170,
+   "hex": "0x00aa",
+   "name": "KC_AUDIO_VOL_DOWN",
+   "label": "AUDIO_VOL_DOWN",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 171,
+   "hex": "0x00ab",
+   "name": "KC_MEDIA_NEXT_TRACK",
+   "label": "MEDIA_NEXT_TRACK",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 172,
+   "hex": "0x00ac",
+   "name": "KC_MEDIA_PREV_TRACK",
+   "label": "MEDIA_PREV_TRACK",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 173,
+   "hex": "0x00ad",
+   "name": "KC_MEDIA_STOP",
+   "label": "MEDIA_STOP",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 174,
+   "hex": "0x00ae",
+   "name": "KC_MEDIA_PLAY_PAUSE",
+   "label": "MEDIA_PLAY_PAUSE",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 175,
+   "hex": "0x00af",
+   "name": "KC_MEDIA_SELECT",
+   "label": "MEDIA_SELECT",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 176,
+   "hex": "0x00b0",
+   "name": "KC_MEDIA_EJECT",
+   "label": "MEDIA_EJECT",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 177,
+   "hex": "0x00b1",
+   "name": "KC_MAIL",
+   "label": "MAIL",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 178,
+   "hex": "0x00b2",
+   "name": "KC_CALCULATOR",
+   "label": "CALCULATOR",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 179,
+   "hex": "0x00b3",
+   "name": "KC_MY_COMPUTER",
+   "label": "MY_COMPUTER",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 180,
+   "hex": "0x00b4",
+   "name": "KC_WWW_SEARCH",
+   "label": "WWW_SEARCH",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 181,
+   "hex": "0x00b5",
+   "name": "KC_WWW_HOME",
+   "label": "WWW_HOME",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 182,
+   "hex": "0x00b6",
+   "name": "KC_WWW_BACK",
+   "label": "WWW_BACK",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 183,
+   "hex": "0x00b7",
+   "name": "KC_WWW_FORWARD",
+   "label": "WWW_FORWARD",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 184,
+   "hex": "0x00b8",
+   "name": "KC_WWW_STOP",
+   "label": "WWW_STOP",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 185,
+   "hex": "0x00b9",
+   "name": "KC_WWW_REFRESH",
+   "label": "WWW_REFRESH",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 186,
+   "hex": "0x00ba",
+   "name": "KC_WWW_FAVORITES",
+   "label": "WWW_FAVORITES",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 187,
+   "hex": "0x00bb",
+   "name": "KC_MEDIA_FAST_FORWARD",
+   "label": "MEDIA_FAST_FORWARD",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 188,
+   "hex": "0x00bc",
+   "name": "KC_MEDIA_REWIND",
+   "label": "MEDIA_REWIND",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 189,
+   "hex": "0x00bd",
+   "name": "KC_BRIGHTNESS_UP",
+   "label": "BRIGHTNESS_UP",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 190,
+   "hex": "0x00be",
+   "name": "KC_BRIGHTNESS_DOWN",
+   "label": "BRIGHTNESS_DOWN",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 191,
+   "hex": "0x00bf",
+   "name": "KC_CONTROL_PANEL",
+   "label": "CONTROL_PANEL",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 192,
+   "hex": "0x00c0",
+   "name": "KC_ASSISTANT",
+   "label": "ASSISTANT",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 193,
+   "hex": "0x00c1",
+   "name": "KC_MISSION_CONTROL",
+   "label": "MISSION_CONTROL",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 194,
+   "hex": "0x00c2",
+   "name": "KC_LAUNCHPAD",
+   "label": "LAUNCHPAD",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 205,
+   "hex": "0x00cd",
+   "name": "KC_MS_UP",
+   "label": "MS_UP",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 206,
+   "hex": "0x00ce",
+   "name": "KC_MS_DOWN",
+   "label": "MS_DOWN",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 207,
+   "hex": "0x00cf",
+   "name": "KC_MS_LEFT",
+   "label": "MS_LEFT",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 208,
+   "hex": "0x00d0",
+   "name": "KC_MS_RIGHT",
+   "label": "MS_RIGHT",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 209,
+   "hex": "0x00d1",
+   "name": "KC_MS_BTN1",
+   "label": "MS_BTN1",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 210,
+   "hex": "0x00d2",
+   "name": "KC_MS_BTN2",
+   "label": "MS_BTN2",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 211,
+   "hex": "0x00d3",
+   "name": "KC_MS_BTN3",
+   "label": "MS_BTN3",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 212,
+   "hex": "0x00d4",
+   "name": "KC_MS_BTN4",
+   "label": "MS_BTN4",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 213,
+   "hex": "0x00d5",
+   "name": "KC_MS_BTN5",
+   "label": "MS_BTN5",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 214,
+   "hex": "0x00d6",
+   "name": "KC_MS_BTN6",
+   "label": "MS_BTN6",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 215,
+   "hex": "0x00d7",
+   "name": "KC_MS_BTN7",
+   "label": "MS_BTN7",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 216,
+   "hex": "0x00d8",
+   "name": "KC_MS_BTN8",
+   "label": "MS_BTN8",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 217,
+   "hex": "0x00d9",
+   "name": "KC_MS_WH_UP",
+   "label": "MS_WH_UP",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 218,
+   "hex": "0x00da",
+   "name": "KC_MS_WH_DOWN",
+   "label": "MS_WH_DOWN",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 219,
+   "hex": "0x00db",
+   "name": "KC_MS_WH_LEFT",
+   "label": "MS_WH_LEFT",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 220,
+   "hex": "0x00dc",
+   "name": "KC_MS_WH_RIGHT",
+   "label": "MS_WH_RIGHT",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 221,
+   "hex": "0x00dd",
+   "name": "KC_MS_ACCEL0",
+   "label": "MS_ACCEL0",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 222,
+   "hex": "0x00de",
+   "name": "KC_MS_ACCEL1",
+   "label": "MS_ACCEL1",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 223,
+   "hex": "0x00df",
+   "name": "KC_MS_ACCEL2",
+   "label": "MS_ACCEL2",
+   "web_key_name": null,
+   "source": "QMK keycodes.h >=0.19 (not in bundle; UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 224,
+   "hex": "0x00e0",
+   "name": "KC_LEFT_CTRL",
+   "label": "Left\nCtrl",
+   "web_key_name": "ControlLeft",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 225,
+   "hex": "0x00e1",
+   "name": "KC_LEFT_SHIFT",
+   "label": "Left Shift",
+   "web_key_name": "ShiftLeft",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 226,
+   "hex": "0x00e2",
+   "name": "KC_LEFT_ALT",
+   "label": "Left\nAlt",
+   "web_key_name": "AltLeft",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 227,
+   "hex": "0x00e3",
+   "name": "KC_LEFT_GUI",
+   "label": "Left\nWin",
+   "web_key_name": "MetaLeft",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 228,
+   "hex": "0x00e4",
+   "name": "KC_RIGHT_CTRL",
+   "label": "Right\nCtrl",
+   "web_key_name": "ControlRight",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 229,
+   "hex": "0x00e5",
+   "name": "KC_RIGHT_SHIFT",
+   "label": "Right Shift",
+   "web_key_name": "ShiftRight",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 230,
+   "hex": "0x00e6",
+   "name": "KC_RIGHT_ALT",
+   "label": "Right\nAlt",
+   "web_key_name": "AltRight",
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  },
+  {
+   "code": 231,
+   "hex": "0x00e7",
+   "name": "KC_RIGHT_GUI",
+   "label": "RIGHT_GUI",
+   "web_key_name": null,
+   "source": "bundle KC enum `it` (HID usage) + QMK name"
+  }
+ ],
+ "lighting": [
+  {
+   "code": 30720,
+   "hex": "0x7800",
+   "name": "QK_BACKLIGHT_ON",
+   "label": "Set the backlight to max brightness",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30721,
+   "hex": "0x7801",
+   "name": "QK_BACKLIGHT_OFF",
+   "label": "Turn the backlight off",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30722,
+   "hex": "0x7802",
+   "name": "QK_BACKLIGHT_TOGGLE",
+   "label": "Turn the backlight on or off",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30723,
+   "hex": "0x7803",
+   "name": "QK_BACKLIGHT_DOWN",
+   "label": "Decrease the backlight level",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30724,
+   "hex": "0x7804",
+   "name": "QK_BACKLIGHT_UP",
+   "label": "Increase the backlight level",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30725,
+   "hex": "0x7805",
+   "name": "QK_BACKLIGHT_STEP",
+   "label": "Cycle through backlight levels",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30726,
+   "hex": "0x7806",
+   "name": "QK_BACKLIGHT_TOGGLE_BREATHING",
+   "label": "Toggle backlight breathing",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30752,
+   "hex": "0x7820",
+   "name": "RGB_TOG",
+   "label": "Toggle RGB lighting on or off",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30753,
+   "hex": "0x7821",
+   "name": "RGB_MODE_FORWARD",
+   "label": "Next RGB mode",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30754,
+   "hex": "0x7822",
+   "name": "RGB_MODE_REVERSE",
+   "label": "Previous RGB mode",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30755,
+   "hex": "0x7823",
+   "name": "RGB_HUI",
+   "label": "Increase hue",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30756,
+   "hex": "0x7824",
+   "name": "RGB_HUD",
+   "label": "Decrease hue",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30757,
+   "hex": "0x7825",
+   "name": "RGB_SAI",
+   "label": "Increase saturation",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30758,
+   "hex": "0x7826",
+   "name": "RGB_SAD",
+   "label": "Decrease saturation",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30759,
+   "hex": "0x7827",
+   "name": "RGB_VAI",
+   "label": "Increase value",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30760,
+   "hex": "0x7828",
+   "name": "RGB_VAD",
+   "label": "Decrease value",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30761,
+   "hex": "0x7829",
+   "name": "RGB_SPI",
+   "label": "Increase RGB effect speed",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30762,
+   "hex": "0x782A",
+   "name": "RGB_SPD",
+   "label": "Decrease RGB effect speed",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30763,
+   "hex": "0x782B",
+   "name": "RGB_MODE_PLAIN",
+   "label": "RGB Mode: Plain",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30764,
+   "hex": "0x782C",
+   "name": "RGB_MODE_BREATHE",
+   "label": "RGB Mode: Breathe",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30765,
+   "hex": "0x782D",
+   "name": "RGB_MODE_RAINBOW",
+   "label": "RGB Mode: Rainbow",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30766,
+   "hex": "0x782E",
+   "name": "RGB_MODE_SWIRL",
+   "label": "RGB Mode: Swirl",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30767,
+   "hex": "0x782F",
+   "name": "RGB_MODE_SNAKE",
+   "label": "RGB Mode: Snake",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30768,
+   "hex": "0x7830",
+   "name": "RGB_MODE_KNIGHT",
+   "label": "RGB Mode: Knight Rider",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30769,
+   "hex": "0x7831",
+   "name": "RGB_MODE_XMAS",
+   "label": "RGB Mode: Christmas",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30770,
+   "hex": "0x7832",
+   "name": "RGB_MODE_GRADIENT",
+   "label": "RGB Mode: Gradient",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  },
+  {
+   "code": 30771,
+   "hex": "0x7833",
+   "name": "RGB_MODE_RGBTEST",
+   "label": "RGB Mode: Test",
+   "source": "QMK keycodes.h >=0.19; descriptions are the vendor locale strings (index-EB3GxDmu.js en locale). Firmware support UNVERIFIED"
+  }
+ ],
+ "quantum": [
+  {
+   "code": 31744,
+   "hex": "0x7C00",
+   "name": "QK_BOOTLOADER",
+   "source": "QMK keycodes.h >=0.19 (UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 31745,
+   "hex": "0x7C01",
+   "name": "QK_REBOOT",
+   "source": "QMK keycodes.h >=0.19 (UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 31746,
+   "hex": "0x7C02",
+   "name": "QK_DEBUG_TOGGLE",
+   "source": "QMK keycodes.h >=0.19 (UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 31747,
+   "hex": "0x7C03",
+   "name": "QK_CLEAR_EEPROM",
+   "source": "QMK keycodes.h >=0.19 (UNVERIFIED for this firmware)"
+  },
+  {
+   "code": 31766,
+   "hex": "0x7C16",
+   "name": "QK_GRAVE_ESCAPE",
+   "source": "QMK keycodes.h >=0.19 (UNVERIFIED for this firmware)"
+  }
+ ],
+ "vendor": [
+  {
+   "hex": "0x5221",
+   "name": "MO(1)",
+   "label": "Win Fn (momentary layer 1); factory key at matrix 4,12 on layer 0",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5223",
+   "name": "MO(3)",
+   "label": "Mac Fn (momentary layer 3); factory key at matrix 4,12 on layer 2",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E01",
+   "name": "VENDOR_SWAP_WASD",
+   "label": "Performance.ExchangeWASD - toggle WASD <-> arrows (factory: Fn+Right Shift)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E02",
+   "name": "VENDOR_WIN_MAC_TOGGLE",
+   "label": "Performance.SwitchWinMacMode - toggle Win/Mac mode (factory: Fn+M)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E03",
+   "name": "VENDOR_WIN_LOCK",
+   "label": "Performance.WinKeyLock - toggle Windows-key lock (factory: Win-Fn layer, Left Win)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E04",
+   "name": "VENDOR_6KRO_TOGGLE",
+   "label": "Performance.SwitchTo6KeyNoPunch - toggle NKRO/6KRO (factory: Fn+N)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E05",
+   "name": "DKS(0)",
+   "label": "Dynamic-keystroke slot 0 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E06",
+   "name": "DKS(1)",
+   "label": "Dynamic-keystroke slot 1 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E07",
+   "name": "DKS(2)",
+   "label": "Dynamic-keystroke slot 2 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E08",
+   "name": "DKS(3)",
+   "label": "Dynamic-keystroke slot 3 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E09",
+   "name": "DKS(4)",
+   "label": "Dynamic-keystroke slot 4 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E0A",
+   "name": "DKS(5)",
+   "label": "Dynamic-keystroke slot 5 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E0B",
+   "name": "DKS(6)",
+   "label": "Dynamic-keystroke slot 6 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E0C",
+   "name": "DKS(7)",
+   "label": "Dynamic-keystroke slot 7 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E0D",
+   "name": "DKS(8)",
+   "label": "Dynamic-keystroke slot 8 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E0E",
+   "name": "DKS(9)",
+   "label": "Dynamic-keystroke slot 9 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E0F",
+   "name": "DKS(10)",
+   "label": "Dynamic-keystroke slot 10 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E10",
+   "name": "DKS(11)",
+   "label": "Dynamic-keystroke slot 11 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E11",
+   "name": "DKS(12)",
+   "label": "Dynamic-keystroke slot 12 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E12",
+   "name": "DKS(13)",
+   "label": "Dynamic-keystroke slot 13 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E13",
+   "name": "DKS(14)",
+   "label": "Dynamic-keystroke slot 14 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E14",
+   "name": "DKS(15)",
+   "label": "Dynamic-keystroke slot 15 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E15",
+   "name": "DKS(16)",
+   "label": "Dynamic-keystroke slot 16 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E16",
+   "name": "DKS(17)",
+   "label": "Dynamic-keystroke slot 17 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E17",
+   "name": "DKS(18)",
+   "label": "Dynamic-keystroke slot 18 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E18",
+   "name": "DKS(19)",
+   "label": "Dynamic-keystroke slot 19 (keyId 0x05..0x18; slot = keyId - 5); configured with 02/03 96 0F",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E1A",
+   "name": "SIDE_BRI_UP",
+   "label": "Side Light Bright+ (offered only for NANO 68 / NANO 68 Pro, NOT this board)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E1B",
+   "name": "SIDE_BRI_DN",
+   "label": "Side Light Bright- (NANO 68 only)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E1C",
+   "name": "SIDE_SPD_UP",
+   "label": "Side Light Speed+ (NANO 68 only)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E1D",
+   "name": "SIDE_SPD_DN",
+   "label": "Side Light Speed- (NANO 68 only)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E1E",
+   "name": "SIDE_MODE_NEXT",
+   "label": "Side Light Mode+ (NANO 68 only)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E1F",
+   "name": "SIDE_MODE_PREV",
+   "label": "Side Light Mode- (NANO 68 only)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E20",
+   "name": "SIDE_RGB_NEXT",
+   "label": "Side Light RGB+ (NANO 68 only)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7E21",
+   "name": "SIDE_RGB_PREV",
+   "label": "Side Light RGB- (NANO 68 only)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7700",
+   "name": "M1",
+   "label": "Play dynamic macro 0 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7701",
+   "name": "M2",
+   "label": "Play dynamic macro 1 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7702",
+   "name": "M3",
+   "label": "Play dynamic macro 2 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7703",
+   "name": "M4",
+   "label": "Play dynamic macro 3 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7704",
+   "name": "M5",
+   "label": "Play dynamic macro 4 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7705",
+   "name": "M6",
+   "label": "Play dynamic macro 5 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7706",
+   "name": "M7",
+   "label": "Play dynamic macro 6 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7707",
+   "name": "M8",
+   "label": "Play dynamic macro 7 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7708",
+   "name": "M9",
+   "label": "Play dynamic macro 8 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x7709",
+   "name": "M10",
+   "label": "Play dynamic macro 9 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x770A",
+   "name": "M11",
+   "label": "Play dynamic macro 10 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x770B",
+   "name": "M12",
+   "label": "Play dynamic macro 11 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x770C",
+   "name": "M13",
+   "label": "Play dynamic macro 12 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x770D",
+   "name": "M14",
+   "label": "Play dynamic macro 13 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x770E",
+   "name": "M15",
+   "label": "Play dynamic macro 14 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x770F",
+   "name": "M16",
+   "label": "Play dynamic macro 15 (UI offers M1..M16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5700",
+   "name": "MT(0)",
+   "label": "Hold/tap slot 0 (Vial tap-dance entry 0)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5701",
+   "name": "MT(1)",
+   "label": "Hold/tap slot 1 (Vial tap-dance entry 1)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5702",
+   "name": "MT(2)",
+   "label": "Hold/tap slot 2 (Vial tap-dance entry 2)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5703",
+   "name": "MT(3)",
+   "label": "Hold/tap slot 3 (Vial tap-dance entry 3)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5704",
+   "name": "MT(4)",
+   "label": "Hold/tap slot 4 (Vial tap-dance entry 4)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5705",
+   "name": "MT(5)",
+   "label": "Hold/tap slot 5 (Vial tap-dance entry 5)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5706",
+   "name": "MT(6)",
+   "label": "Hold/tap slot 6 (Vial tap-dance entry 6)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5707",
+   "name": "MT(7)",
+   "label": "Hold/tap slot 7 (Vial tap-dance entry 7)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5708",
+   "name": "MT(8)",
+   "label": "Hold/tap slot 8 (Vial tap-dance entry 8)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5709",
+   "name": "MT(9)",
+   "label": "Hold/tap slot 9 (Vial tap-dance entry 9)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x570A",
+   "name": "MT(10)",
+   "label": "Hold/tap slot 10 (Vial tap-dance entry 10)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x570B",
+   "name": "MT(11)",
+   "label": "Hold/tap slot 11 (Vial tap-dance entry 11)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x570C",
+   "name": "MT(12)",
+   "label": "Hold/tap slot 12 (Vial tap-dance entry 12)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x570D",
+   "name": "MT(13)",
+   "label": "Hold/tap slot 13 (Vial tap-dance entry 13)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x570E",
+   "name": "MT(14)",
+   "label": "Hold/tap slot 14 (Vial tap-dance entry 14)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x570F",
+   "name": "MT(15)",
+   "label": "Hold/tap slot 15 (Vial tap-dance entry 15)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5710",
+   "name": "MT(16)",
+   "label": "Hold/tap slot 16 (Vial tap-dance entry 16)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5711",
+   "name": "MT(17)",
+   "label": "Hold/tap slot 17 (Vial tap-dance entry 17)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5712",
+   "name": "MT(18)",
+   "label": "Hold/tap slot 18 (Vial tap-dance entry 18)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5713",
+   "name": "MT(19)",
+   "label": "Hold/tap slot 19 (Vial tap-dance entry 19)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  },
+  {
+   "hex": "0x5714..",
+   "name": "TGL(n)",
+   "label": "Toggle slots: keyId >= 0x14 (entry 20, 21, ...)",
+   "source": "vendor UI ConfigPage-eQr_MPuY.js (Wt/zt/Jt menus L8842-9103, layout defaults L6320-6901, ea()/Chars L9181, L10929-11540)"
+  }
+ ],
+ "ui_menu_basic_extras": "The vendor key menu (jt/Qt/Wt) offers: letters/digits/F-keys/numpad/control keys (HID usages), media/system 0xA8-0xBA, 0xBD, 0xBE, 0xAD, 0xAE, NUHS 0x32, NUBS 0x64, mouse 0xCD-0xD5, 0xD9-0xDC, Mission Control 0xC1, Launchpad 0xC2, KC_TRNS 0x0001, MO(1)/MO(3), lighting 0x7820-0x782A (no 0x7825/0x7826), vendor 0x7E01-0x7E04, macros 0x7700-0x770F."
+}
