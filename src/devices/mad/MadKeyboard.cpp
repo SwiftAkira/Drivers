@@ -286,7 +286,7 @@ void MadKeyboard::start()
                 }
                 h.insert(QStringLiteral("lshift"), 0xE1); h.insert(QStringLiteral("rshift"), 0xE5); h.insert(QStringLiteral("lctrl"), 0xE0);
                 h.insert(QStringLiteral("rctrl"), 0xE4); h.insert(QStringLiteral("lalt"), 0xE2); h.insert(QStringLiteral("ralt"), 0xE6);
-                h.insert(QStringLiteral("lwin"), 0xE3); h.insert(QStringLiteral("win"), 0xE3); h.insert(QStringLiteral("backspace"), 0x2A);
+                h.insert(QStringLiteral("lwin"), 0xE3); h.insert(QStringLiteral("win"), 0xE3); h.insert(QStringLiteral("left win"), 0xE3); h.insert(QStringLiteral("backspace"), 0x2A);
                 h.insert(QStringLiteral("caps lock"), 0x39); h.insert(QStringLiteral("fn"), 0x5221);
                 return h;
             }();
@@ -411,6 +411,21 @@ void MadKeyboard::ioIdle()
             if (phase[i] > 0.4f) phase[i] = -1;
         }
         if (m_fxIo && m_engine.active()) {
+            if (m_engine.needsAudio()) {
+                // 120 BPM kick with a melody sweeping across the bands.
+                fx::AudioFrame a;
+                a.active = true;
+                const double beat = std::fmod(secs, 0.5);
+                a.bass = beat < 0.08 ? 1.0f : 0.25f;
+                a.beats = uint32_t(secs / 0.5);
+                a.level = beat < 0.1 ? 1.0f : 0.65f;
+                a.treble = 0.4f;
+                for (int b = 0; b < 14; ++b)
+                    a.bands[b] = float(std::clamp(0.2 + 0.75 * std::exp(-std::pow(b - 7 - 5 * std::sin(secs * 1.7), 2) / 5.0) + (b < 3 ? a.bass * 0.6 : 0.0), 0.0, 1.0));
+                for (int k = 0; k < 28; ++k)
+                    a.wave[k] = float(0.85 * std::sin(k * 0.5 + secs * 11) * (0.6 + 0.4 * std::sin(k * 0.13 + secs * 2.3)));
+                m_engine.setAudio(a);
+            }
             const auto frame = m_engine.render(secs, fake);
             QVariantList cols;
             for (const auto &c : frame)

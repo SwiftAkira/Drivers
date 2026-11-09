@@ -7,6 +7,8 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDir>
+#include <QElapsedTimer>
+#include <QFile>
 #include <QFontDatabase>
 #include <QTimer>
 #include <QLocalServer>
@@ -53,10 +55,15 @@ int main(int argc, char *argv[])
     QCommandLineOption shotOpt(QStringLiteral("screenshot"), QStringLiteral("Render every page to PNGs in <dir> and exit (add --demo for simulated devices)."),
                                QStringLiteral("dir"));
     parser.addOption(shotOpt);
+    QCommandLineOption recordOpt(QStringLiteral("record"), QStringLiteral("Record a scripted demo scene as PNG frames into <dir> (implies --demo)."),
+                                 QStringLiteral("dir"));
+    parser.addOption(recordOpt);
+    QCommandLineOption sceneOpt(QStringLiteral("scene"), QStringLiteral("Scene for --record: tour | effects."), QStringLiteral("name"), QStringLiteral("tour"));
+    parser.addOption(sceneOpt);
     parser.process(app);
 
     // Single instance: a second launch just raises the existing window.
-    if (!parser.isSet(shotOpt)) {
+    if (!parser.isSet(shotOpt) && !parser.isSet(recordOpt)) {
         QLocalSocket probe;
         probe.connectToServer(instanceSocketName());
         if (probe.waitForConnected(300)) {
@@ -77,11 +84,12 @@ int main(int argc, char *argv[])
 
     QQuickStyle::setStyle(QStringLiteral("Basic"));
 
-    if (parser.isSet(demoOpt) || parser.isSet(shotOpt))
+    if (parser.isSet(demoOpt) || parser.isSet(shotOpt) || parser.isSet(recordOpt))
         flux::g_demoSettings = true;
     DeviceManager devices(nullptr);
     const bool shots = parser.isSet(shotOpt);
-    if (parser.isSet(demoOpt))
+    const bool recording = parser.isSet(recordOpt);
+    if (parser.isSet(demoOpt) || recording)
         devices.enableDemo();
     ProfileStore profiles(nullptr);
     AppController controller(&devices);
@@ -105,6 +113,60 @@ int main(int argc, char *argv[])
         return 1;
     if (auto *win = qobject_cast<QQuickWindow *>(engine.rootObjects().constFirst()))
         controller.setMainWindow(win);
+
+    if (recording) {
+        // Scripted scene → numbered PNG frames + frames.txt with timestamps (ms).
+        auto *win = qobject_cast<QQuickWindow *>(engine.rootObjects().constFirst());
+        const QString dir = parser.value(recordOpt);
+        QDir().mkpath(dir);
+        win->setProperty("visible", true);
+        win->resize(1100, 740);
+        struct Step { int at; QString page; QString effect; };
+        QList<Step> steps;
+        int total = 0;
+        if (parser.value(sceneOpt) == QLatin1String("effects")) {
+            const QStringList fx = {"ripple", "lightning", "water", "soundwave", "flutter", "magnet", "aurora", "spectrum"};
+            steps << Step{0, "keyboard/lighting", fx.first()};
+            for (int i = 1; i < fx.size(); ++i)
+                steps << Step{i * 2600, QString(), fx[i]};
+            total = int(fx.size()) * 2600;
+        } else {
+            const QStringList pages = {"mouse/overview", "mouse/performance", "keyboard/actuation", "keyboard/lighting", "mouse/buttons", "profiles"};
+            for (int i = 0; i < pages.size(); ++i)
+                steps << Step{i * 2000, pages[i], i == 0 ? QStringLiteral("aurora") : QString()};
+            total = int(pages.size()) * 2000;
+        }
+        auto clock = std::make_shared<QElapsedTimer>();
+        auto frame = std::make_shared<int>(0);
+        auto next = std::make_shared<int>(0);
+        auto log = std::make_shared<QFile>(dir + "/frames.txt");
+        log->open(QIODevice::WriteOnly | QIODevice::Truncate);
+        // Let the demo devices settle before the clock starts.
+        QTimer::singleShot(1200, &app, [=, &app, &devices] {
+            clock->start();
+            auto timer = new QTimer(&app);
+            timer->setInterval(50);
+            QObject::connect(timer, &QTimer::timeout, &app, [=, &app, &devices] {
+                const qint64 t = clock->elapsed();
+                while (*next < steps.size() && steps[*next].at <= t) {
+                    const Step &s = steps[*next];
+                    if (!s.page.isEmpty())
+                        QMetaObject::invokeMethod(win, "go", Q_ARG(QVariant, s.page));
+                    if (!s.effect.isEmpty())
+                        if (QObject *kb = devices.keyboard())
+                            QMetaObject::invokeMethod(kb, "startFluxEffect", Q_ARG(QString, s.effect));
+                    ++*next;
+                }
+                win->grabWindow().save(dir + QStringLiteral("/f%1.png").arg(*frame, 5, 10, QLatin1Char('0')));
+                log->write(QByteArray::number(t) + '\n');
+                log->flush();
+                ++*frame;
+                if (t > total)
+                    app.quit();
+            });
+            timer->start();
+        });
+    }
 
     if (shots) {
         auto *win = qobject_cast<QQuickWindow *>(engine.rootObjects().constFirst());
