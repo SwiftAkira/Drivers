@@ -22,7 +22,7 @@
   <a href="#-features">Features</a> ·
   <a href="#-flux-effects">Lighting effects</a> ·
   <a href="#-osu-setup">osu! setup</a> ·
-  <a href="#%EF%B8%8F-troubleshooting">Troubleshooting</a> ·
+  <a href="#-troubleshooting">Troubleshooting</a> ·
   <a href="#-faq">FAQ</a>
 </p>
 
@@ -32,29 +32,29 @@
 
 ---
 
-## 💡 Why Flux?
+## <img src="docs/icons/why.svg" width="24" height="24" alt=""> Why Flux?
 
 LAMZU and MADLIONS only ship configuration tools for Windows and Chrome. On Linux that leaves you stuck with whatever was last saved on the device. Flux talks to both devices directly over USB HID, using the same commands as the vendors' own apps (reverse-engineered from them, see [How it works](#-how-it-works)). It wraps them in a clean, dark, Apple-style interface with springy animations.
 
-- 🖱️ **Mouse:** DPI stages, 8K polling, lift-off distance, Motion Sync, button remaps, macros, battery in the tray.
-- ⌨️ **Keyboard:** per-key actuation, Rapid Trigger, SOCD / Snap Tap, Dynamic Keystroke, keymap, macros, lighting.
-- 🌈 **Flux Effects:** 29 live, per-key lighting effects. Some react to how *deep* you press a key, some react to the music you're playing.
-- 🎯 **osu! mode:** one switch for hair-trigger tapping keys, and the same switch puts your old settings back.
+- **Mouse:** DPI stages, 8K polling, lift-off distance, Motion Sync, button remaps, macros, battery in the tray.
+- **Keyboard:** per-key actuation, Rapid Trigger, SOCD / Snap Tap, Dynamic Keystroke, keymap, macros, lighting.
+- **Flux Effects:** 29 live, per-key lighting effects. Some react to how *deep* you press a key, some react to the music you're playing.
+- **osu! mode:** one switch for hair-trigger tapping keys, and the same switch puts your old settings back.
 
-## ✅ Supported hardware
+## <img src="docs/icons/hardware.svg" width="24" height="24" alt=""> Supported hardware
 
 | Device | Connection | USB ID | Status |
 |---|---|---|---|
-| **LAMZU INCA 8K** | 8K receiver | `37b0:0010` | ✅ Tested |
-| **LAMZU INCA 8K** | USB cable | `37b0:0009` | 🟡 Same protocol, untested |
-| **LAMZU INCA 8K** | 1K receiver | `37b0:000f` | 🟡 Same protocol, untested |
-| **MADLIONS MAD LIGHT 60 HE** | USB | `373b:10f6` | ✅ Tested |
+| **LAMZU INCA 8K** | 8K receiver | `37b0:0010` | Tested |
+| **LAMZU INCA 8K** | USB cable | `37b0:0009` | Untested (same protocol) |
+| **LAMZU INCA 8K** | 1K receiver | `37b0:000f` | Untested (same protocol) |
+| **MADLIONS MAD LIGHT 60 HE** | USB | `373b:10f6` | Tested |
 
 Other LAMZU "Aurora" mice and FGG/MADLIONS "DuckBread" keyboards probably use the same protocols, but they're not enabled yet. See [Contributing](#-contributing).
 
 ---
 
-## 📦 Install
+## <img src="docs/icons/install.svg" width="24" height="24" alt=""> Install
 
 ### Arch Linux / CachyOS / EndeavourOS / Manjaro (recommended)
 
@@ -113,7 +113,7 @@ flux --demo
 
 ---
 
-## 🚀 First run
+## <img src="docs/icons/first-run.svg" width="24" height="24" alt=""> First run
 
 1. **Open Flux.** Your mouse and keyboard appear in the sidebar within a second or two.
 2. **See "Permission needed"?** The udev rule isn't active yet. Replug the devices, or click **Copy** on that screen and run the command it shows.
@@ -124,10 +124,10 @@ flux --demo
 
 ---
 
-## ✨ Features
+## <img src="docs/icons/features.svg" width="24" height="24" alt=""> Features
 
 <details open>
-<summary><b>🖱️ LAMZU INCA 8K</b></summary>
+<summary><img src="docs/icons/mouse.svg" width="20" height="20" alt=""> <b>LAMZU INCA 8K</b></summary>
 
 - **DPI:**
   - 1–5 stages from 50 to 30,000 DPI, with optional separate X/Y values.
@@ -154,7 +154,7 @@ flux --demo
 </details>
 
 <details open>
-<summary><b>⌨️ MADLIONS MAD LIGHT 60 HE</b></summary>
+<summary><img src="docs/icons/keyboard.svg" width="20" height="20" alt=""> <b>MADLIONS MAD LIGHT 60 HE</b></summary>
 
 - **Actuation:**
   - Per key or whole board, 0.10–3.50 mm.
@@ -177,7 +177,7 @@ flux --demo
 </details>
 
 <details open>
-<summary><b>🧩 App</b></summary>
+<summary><img src="docs/icons/app.svg" width="20" height="20" alt=""> <b>App</b></summary>
 
 - **Looks:**
   - Dark, Apple-style design with Inter type and spring animations.
@@ -193,7 +193,7 @@ flux --demo
 
 ---
 
-## 🌈 Flux Effects
+## <img src="docs/icons/effects.svg" width="24" height="24" alt=""> Flux Effects
 
 The keyboard's built-in effects are fine, but limited. **Flux Effects are rendered by Flux and streamed to the keyboard live, one key at a time.** Some react to the analog depth of each keypress (only a Hall-effect board can do this), some to the music playing on your PC.
 
@@ -201,7 +201,7 @@ The keyboard's built-in effects are fine, but limited. **Flux Effects are render
   <img src="docs/media/lighting-effects.gif" alt="Flux Effects playing on the keyboard: Ripples, Lightning, Water, Sound Wave, Flutter, Magnetic Field, Aurora, Spectrum" width="720">
 </p>
 
-| ⚡ Reacts to your keys | 🎵 Reacts to sound | 🌌 Ambient |
+| <img src="docs/icons/keys.svg" width="18" height="18" alt=""> Reacts to your keys | <img src="docs/icons/sound.svg" width="18" height="18" alt=""> Reacts to sound | <img src="docs/icons/ambient.svg" width="18" height="18" alt=""> Ambient |
 |---|---|---|
 | **Ripples:** a wave out of every press; press deeper for a bigger wave | **Sound Wave:** the waveform of what's playing, drawn across the keys | **Aurora:** drifting curtains of light |
 | **Flutter:** sparks burst out and flutter around the key | **Spectrum:** 14 frequency bars with falling peaks | **Plasma:** liquid colour fields |
@@ -228,7 +228,7 @@ The keyboard's built-in effects are fine, but limited. **Flux Effects are render
 
 ---
 
-## 🎯 osu! setup
+## <img src="docs/icons/osu.svg" width="24" height="24" alt=""> osu! setup
 
 Flux has a one-click osu! mode, set up for **A + D** by default:
 
@@ -248,7 +248,7 @@ Flux has a one-click osu! mode, set up for **A + D** by default:
 
 ---
 
-## 🖼️ Screenshots
+## <img src="docs/icons/screenshots.svg" width="24" height="24" alt=""> Screenshots
 
 | | |
 |---|---|
@@ -263,7 +263,7 @@ Flux has a one-click osu! mode, set up for **A + D** by default:
 
 ---
 
-## 🧰 Command line
+## <img src="docs/icons/cli.svg" width="24" height="24" alt=""> Command line
 
 `fluxctl` uses the same protocol code as the app. It's handy for scripts, or for checking that a device responds:
 
@@ -281,7 +281,7 @@ fluxctl kb keymap                # raw keycodes for all 4 layers
 
 ---
 
-## 🛠️ Troubleshooting
+## <img src="docs/icons/troubleshooting.svg" width="24" height="24" alt=""> Troubleshooting
 
 <details>
 <summary><b>"Permission needed": Flux sees the device but can't open it</b></summary>
@@ -326,7 +326,7 @@ Blur and the native shadow are KDE Plasma (KWin) features; elsewhere the sidebar
 
 ---
 
-## ❓ FAQ
+## <img src="docs/icons/faq.svg" width="24" height="24" alt=""> FAQ
 
 <details>
 <summary><b>Is it safe? Can it brick my device?</b></summary>
@@ -360,7 +360,7 @@ Both. Flux is built and tested on KDE Plasma 6 with Wayland, and works on X11 to
 
 ---
 
-## 🔬 How it works
+## <img src="docs/icons/how.svg" width="24" height="24" alt=""> How it works
 
 Flux is C++20 with Qt 6 Quick (QML). Each device gets its own I/O thread that talks raw HID through `hidapi`, and the UI never waits on hardware.
 
@@ -381,7 +381,7 @@ qml/               the interface (controls/, pages/)
 
 ---
 
-## 🗺️ Roadmap
+## <img src="docs/icons/roadmap.svg" width="24" height="24" alt=""> Roadmap
 
 - [x] Full LAMZU INCA 8K support
 - [x] Full MAD LIGHT 60 HE support, including Rapid Trigger and SOCD
@@ -393,7 +393,7 @@ qml/               the interface (controls/, pages/)
 - [ ] Custom effect editor
 - [ ] Custom keyboard firmware investigation
 
-## 🤝 Contributing
+## <img src="docs/icons/contributing.svg" width="24" height="24" alt=""> Contributing
 
 Issues and pull requests are welcome, especially from people with other LAMZU or MADLIONS/FGG devices.
 
@@ -401,7 +401,7 @@ Issues and pull requests are welcome, especially from people with other LAMZU or
 - `flux --demo --screenshot <dir>` renders every page to PNGs.
 - `fluxctl` lets you poke at a real device.
 
-## ⭐ Star history
+## <img src="docs/icons/star.svg" width="24" height="24" alt=""> Star history
 
 If Flux saved you from booting Windows, a star helps other Linux users find it.
 
@@ -409,7 +409,7 @@ If Flux saved you from booting Windows, a star helps other Linux users find it.
   <img src="https://api.star-history.com/svg?repos=SwiftAkira/Drivers&type=Date" alt="Star history chart" width="600">
 </a>
 
-## 📄 License
+## <img src="docs/icons/license.svg" width="24" height="24" alt=""> License
 
 [MIT](LICENSE) © Orion Lamme.
 
